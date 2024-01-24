@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ToolOptions from "..get-tool-tips"; // Import ToolOptions component
+import ToolOptions from "../get-tool-tips"; // Import ToolOptions component
 
 const years = [2021, 2022, 2023, 2024, 2025, 2026, 2027];
 
