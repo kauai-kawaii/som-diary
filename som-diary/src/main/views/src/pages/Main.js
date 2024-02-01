@@ -22,6 +22,12 @@ function Main() {
                     >
                         {'인사이트'}
                     </Link>
+                    <Link
+                        to={`/diary`}
+                        className='text-center w-36 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                    >
+                        {'인사이트'}
+                    </Link>
                 </div>
             </div>
             <div className='min-h-60 flex grow justify-center'>
