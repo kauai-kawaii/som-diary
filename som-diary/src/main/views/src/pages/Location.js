@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const {kakao} = window;
 export default function Location() {
+    const [searchResults, setSearchResults] = useState([]);
+
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
@@ -19,12 +21,13 @@ export default function Location() {
             var searchInput = document.getElementById("search-input").value;
             var ps = new kakao.maps.services.Places();
             ps.keywordSearch(searchInput, placesSearchCB);
+            updateList()
         })
 
         function placesSearchCB (data, status, pagination) {
             if (status === kakao.maps.services.Status.OK) {
                 var bounds = new kakao.maps.LatLngBounds();
-
+                setSearchResults(data);
                 for (var i=0; i<data.length; i++) {
                     displayMarker(data[i]);
                     displayList(data[i]);
@@ -53,10 +56,19 @@ export default function Location() {
             var listItem = document.createElement("div");
             listItem.className = "mb-2";
             listItem.innerHTML =
-                '<div class="font-nomal text-gray-900 text-xs">' + place.place_name + "</div>";
+                '<div class="font-nomal text-gray-900 text-xs border-gray-600">' + place.place_name + "</div>";
 
 
             mapListContainer.appendChild(listItem);
+        }
+
+        function updateList() {
+            var mapListContainer = document.getElementById("location-list");
+            mapListContainer.innerHTML = "";  // 기존 리스트 비우기
+
+            for (var i = 0; i < searchResults.length; i++) {
+                displayList(searchResults[i]);
+            }
         }
 
     }, []);
