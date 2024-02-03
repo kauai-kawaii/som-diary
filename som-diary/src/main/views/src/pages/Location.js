@@ -1,76 +1,160 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect } from "react";
 
 const {kakao} = window;
 export default function Location() {
-    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
-        var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+        let markers = [];
 
-        var mapContainer = document.getElementById('map'),
+        const mapContainer = document.getElementById('map'),
             mapOption = {
                 center: new kakao.maps.LatLng(37.566826, 126.9786567),
                 level: 3
             };
 
-        // 지도를 생성합니다
-        var map = new kakao.maps.Map(mapContainer, mapOption);
+        const map = new kakao.maps.Map(mapContainer, mapOption);
 
-        var searchButton = document.getElementById("search-btn");
-        searchButton.addEventListener('click', ()=>{
-            var searchInput = document.getElementById("search-input").value;
-            var ps = new kakao.maps.services.Places();
-            ps.keywordSearch(searchInput, placesSearchCB);
-            updateList()
-        })
+        const ps = new kakao.maps.services.Places();
 
-        function placesSearchCB (data, status, pagination) {
-            if (status === kakao.maps.services.Status.OK) {
-                var bounds = new kakao.maps.LatLngBounds();
-                setSearchResults(data);
-                for (var i=0; i<data.length; i++) {
-                    displayMarker(data[i]);
-                    displayList(data[i]);
-                    bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        const infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+        searchPlaces();
+
+        function searchPlaces() {
+            let searchButton = document.getElementById('search-btn')
+            searchButton.addEventListener('click',() => {
+                let keyword = document.getElementById('search-input').value;
+
+                if (!keyword.replace(/^\s+|\s+$/g, '')) {
+                    alert('키워드를 입력해주세요!');
+                    return false;
                 }
 
-                map.setBounds(bounds);
+                ps.keywordSearch( keyword, placesSearchCB);
+            })
+        }
+
+        function placesSearchCB(data, status) {
+            if (status === kakao.maps.services.Status.OK) {
+
+                displayPlaces(data);
+
+            } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+                alert('검색 결과가 존재하지 않습니다.');
+                return;
+            } else if (status === kakao.maps.services.Status.ERROR) {
+                alert('검색 결과 중 오류가 발생했습니다.');
+                return;
             }
         }
 
-        function displayMarker(place) {
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: new kakao.maps.LatLng(place.y, place.x)
-            });
+        function displayPlaces(places) {
 
-            kakao.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-                infowindow.open(map, marker);
-            });
+            let listEl = document.getElementById('location-list'),
+                fragment = document.createDocumentFragment(),
+                bounds = new kakao.maps.LatLngBounds(),
+                listStr = '';
+
+            removeAllChildNods(listEl);
+            removeMarker();
+
+            for ( let i=0; i<places.length; i++ ) {
+
+                let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+                    marker = addMarker(placePosition, i),
+                    itemEl = getListItem(i, places[i]);
+
+                bounds.extend(placePosition);
+
+                (function(marker, title) {
+                    kakao.maps.event.addListener(marker, 'mouseover', function() {
+                        displayInfowindow(marker, title);
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+
+                    itemEl.onmouseover =  function () {
+                        displayInfowindow(marker, title);
+                    };
+
+                    itemEl.onmouseout =  function () {
+                        infowindow.close();
+                    };
+                })(marker, places[i].place_name);
+
+                fragment.appendChild(itemEl);
+            }
+
+            listEl.appendChild(fragment);
+
+            map.setBounds(bounds);
         }
 
-        function displayList(place) {
-            var mapListContainer = document.getElementById("location-list");
+        function getListItem(index, places) {
 
-            var listItem = document.createElement("div");
-            listItem.className = "mb-2";
-            listItem.innerHTML =
-                '<div class="font-nomal text-gray-900 text-xs border-gray-600">' + place.place_name + "</div>";
+            let el = document.createElement('li'),
+                itemStr =
+                    '<div class="info">' +
+                    '<span class="cursor-pointer text-xs font-bold">' + places.place_name + '</span>' +
+                    '<br>';
 
+            if (places.road_address_name) {
+                itemStr += '<span class="text-xs">' + places.road_address_name + '</span>' + '<br>'+
+                    '<span class="jibun gray text-xs text-gray-500" >' +  places.address_name  + '</span>';
+            } else {
+                itemStr += '<span class="text-xs text-gray-500">' +  places.address_name  + '</span>';
+            }
 
-            mapListContainer.appendChild(listItem);
+            itemStr += '<br>'+'<span class="tel text-xs text-blue-700">' + places.phone  + '</span>' + '<hr>'+
+                '</div>';
+
+            el.innerHTML = itemStr;
+            el.className = 'item';
+
+            return el;
         }
 
-        function updateList() {
-            var mapListContainer = document.getElementById("location-list");
-            mapListContainer.innerHTML = "";  // 기존 리스트 비우기
+        function addMarker(position, idx, title) {
+            let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+                imageSize = new kakao.maps.Size(36, 37),
+                imgOptions =  {
+                    spriteSize : new kakao.maps.Size(36, 691),
+                    spriteOrigin : new kakao.maps.Point(0, (idx*46)+10),
+                    offset: new kakao.maps.Point(13, 37)
+                },
+                markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+                marker = new kakao.maps.Marker({
+                    position: position,
+                    image: markerImage
+                });
 
-            for (var i = 0; i < searchResults.length; i++) {
-                displayList(searchResults[i]);
+            marker.setMap(map);
+            markers.push(marker);
+
+            return marker;
+        }
+
+        function removeMarker() {
+            for ( let i = 0; i < markers.length; i++ ) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        }
+
+        function displayInfowindow(marker, title) {
+            const content = '<div style="padding:2px;z-index:1;font-size:10px;">' + title + '</div>';
+
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+        }
+
+        function removeAllChildNods(el) {
+            while (el.hasChildNodes()) {
+                el.removeChild (el.lastChild);
             }
         }
-
     }, []);
 
     return (
@@ -87,16 +171,17 @@ export default function Location() {
                     type="button"
                     value="검색"
                     className="inline-flex items-center rounded-md bg-blue-50 px-3 py-2 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
-                    style={{ cursor: "pointer" }}
+                    style={{cursor: "pointer"}}
                 />
             </div>
 
-            <div className="flex flex-col sm:flex-row">
+            <div class="map_wrap" className="flex flex-col sm:flex-row">
                 {/*검색 결과 리스트*/}
                 <div id="location-list"
-                     className="border border-gray-400 p-2 mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
-                     style={{width: "195px"}}>
+                     className="border border-gray-400 p-2  sm:mb-0 sm:mr-2 w-full sm:w-auto"
+                     style={{width: "200px",listStyleType: "none", overflowY: "auto", maxHeight: "400px"}}>
                 </div>
+
 
                 {/*지도 마커 표시*/}
                 <div
@@ -105,7 +190,6 @@ export default function Location() {
                     style={{height: '400px', width: '500px'}}
                 ></div>
             </div>
-
             <input
                 type="button"
                 value="확인"
@@ -115,5 +199,3 @@ export default function Location() {
         </div>
     );
 }
-
-
