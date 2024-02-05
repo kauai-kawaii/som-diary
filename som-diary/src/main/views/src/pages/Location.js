@@ -1,7 +1,10 @@
-import React, {useEffect } from "react";
+import React, {useEffect,useState } from "react";
+import { useNavigate } from "react-router-dom"; // 데이터 전달을 위한
 
 const {kakao} = window;
 export default function Location() {
+    const navigate = useNavigate();
+    const [location, setLocation] = useState(''); // 사용자가 클릭한 위치 이름을 저장할 변수
 
     useEffect(() => {
         let markers = [];
@@ -65,7 +68,6 @@ export default function Location() {
                     itemEl = getListItem(i, places[i]);
 
                 bounds.extend(placePosition);
-
                 (function(marker, title) {
                     kakao.maps.event.addListener(marker, 'mouseover', function() {
                         displayInfowindow(marker, title);
@@ -82,6 +84,11 @@ export default function Location() {
                     itemEl.onmouseout =  function () {
                         infowindow.close();
                     };
+
+                    itemEl.onclick =  function () {
+                        setLocation(title);
+                    };
+
                 })(marker, places[i].place_name);
 
                 fragment.appendChild(itemEl);
@@ -93,28 +100,27 @@ export default function Location() {
         }
 
         function getListItem(index, places) {
-
             let el = document.createElement('li'),
-                itemStr =
-                    '<div class="info">' +
-                    '<span class="cursor-pointer text-xs font-bold">' + places.place_name + '</span>' +
-                    '<br>';
+            itemStr =
+                '<div class="info">' +
+                '<span id="user-location" class="cursor-pointer text-xs font-bold">' + places.place_name + '</span>' +
+                '<br>';
 
             if (places.road_address_name) {
-                itemStr += '<span class="text-xs">' + places.road_address_name + '</span>' + '<br>'+
-                    '<span class="jibun gray text-xs text-gray-500" >' +  places.address_name  + '</span>';
-            } else {
-                itemStr += '<span class="text-xs text-gray-500">' +  places.address_name  + '</span>';
-            }
+                        itemStr += '<span class="text-xs">' + places.road_address_name + '</span>' + '<br>'+
+                            '<span class="jibun gray text-xs text-gray-500" >' +  places.address_name  + '</span>';
+                    } else {
+                        itemStr += '<span class="text-xs text-gray-500">' +  places.address_name  + '</span>';
+                    }
 
             itemStr += '<br>'+'<span class="tel text-xs text-blue-700">' + places.phone  + '</span>' + '<hr>'+
-                '</div>';
+                        '</div>';
 
             el.innerHTML = itemStr;
             el.className = 'item';
-
             return el;
         }
+
 
         function addMarker(position, idx, title) {
             let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
@@ -155,7 +161,7 @@ export default function Location() {
                 el.removeChild (el.lastChild);
             }
         }
-    }, []);
+    }, [location]);
 
     return (
         <div className="p-5">
@@ -193,6 +199,13 @@ export default function Location() {
             <input
                 type="button"
                 value="확인"
+                onClick={() => {
+                    if (location) {
+                        navigate(`/diary`, { state: { placename: location } });
+                    } else {
+                        alert('위치를 선택하세요!');
+                    }
+                }}
                 className="mt-2 sm:mt-2 inline-flex items-center rounded-md bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
                 style={{cursor: "pointer"}}
             />

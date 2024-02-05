@@ -1,7 +1,7 @@
 import ToolOptions from './Options'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-export default function LocationUpload() {
+export default function LocationUpload({data}) {
     const [selectedRate, setSelectedRate] = useState('위치 별점주기');
     const rates = ['0점','1점', '2점', '3점', '4점','5점','취소'];
     const handleRateClick = (rate) => {
@@ -14,7 +14,7 @@ export default function LocationUpload() {
 
     return (
         <>
-            <p className="mt-2 text-center text-sm leading-6 text-gray-600">서울 공릉동 - 카페</p>
+            <p className="mt-2 text-center text-sm leading-6 text-gray-600">{data.placename}</p>
             <div className="mt-9">
 
                 <Link to={'/search-location'} >

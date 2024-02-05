@@ -8,49 +8,52 @@ import { useEffect, useState } from 'react';
 import Music from '../components/diary/Music';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-
-export default function Diary({date}) {
+export default function Diary() {
+    const locationData = useLocation();
+    console.log(locationData.state);
     useEffect(() => {
-        const client_id = process.env.REACT_APP_CLIENT_ID;
-        const client_secret = process.env.REACT_APP_CLIENT_SECRET;
-        console.log(client_id)
+        // const client_id = process.env.REACT_APP_CLIENT_ID;
+        // const client_secret = process.env.REACT_APP_CLIENT_SECRET;
+        // console.log(client_id)
+        //
+        // const authOptions = {
+        //     url: 'https://accounts.spotify.com/api/token',
+        //     headers: {
+        //         'Authorization': 'Basic ' + btoa(`${client_id}:${client_secret}`)
+        //     },
+        //     data: 'grant_type=client_credentials'
+        // };
+        //
+        // axios.post(authOptions.url, authOptions.data, { headers: authOptions.headers })
+        //     .then(response => {
+        //         const token = response.data.access_token;
+        //         console.log(token);
+        //         fetchArtist(token);
+        //     })
+        //     .catch(error => {
+        //         console.error('Spotify access token fetching error:', error);
+        //     });
+        //
+        // async function fetchArtist(token) {
+        //     try {
+        //         const result = await fetch(`https://api.spotify.com/v1/artists/0CmvFWTX9zmMNCUi6fHtAx`, {
+        //             // method: "GET",
+        //             headers: { Authorization: `Bearer ${token}` }
+        //         });
+        //
+        //         if (!result.ok) {
+        //             throw new Error(`Failed to fetch user profile. Status: ${result.status}`);
+        //         }
+        //
+        //         const artistInfo = await result.json();
+        //         console.log(artistInfo);
+        //     } catch (error) {
+        //         console.error('Error fetching user profile:', error);
+        //     }
+        // }
 
-        const authOptions = {
-            url: 'https://accounts.spotify.com/api/token',
-            headers: {
-                'Authorization': 'Basic ' + btoa(`${client_id}:${client_secret}`)
-            },
-            data: 'grant_type=client_credentials'
-        };
-
-        axios.post(authOptions.url, authOptions.data, { headers: authOptions.headers })
-            .then(response => {
-                const token = response.data.access_token;
-                console.log(token);
-                fetchArtist(token);
-            })
-            .catch(error => {
-                console.error('Spotify access token fetching error:', error);
-            });
-
-        async function fetchArtist(token) {
-            try {
-                const result = await fetch(`https://api.spotify.com/v1/artists/0CmvFWTX9zmMNCUi6fHtAx`, {
-                    // method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-
-                if (!result.ok) {
-                    throw new Error(`Failed to fetch user profile. Status: ${result.status}`);
-                }
-
-                const artistInfo = await result.json();
-                console.log(artistInfo);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
-            }
-        }
 
     }, []);
 
@@ -72,7 +75,7 @@ export default function Diary({date}) {
                         <div className="sm:col-span-2 sm:col-start-1">
                             <div className="mt-2">
                                 <div className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
-                                    <p className='text-center'>2024년 1월 11일{date}</p>
+                                    <p className='text-center'>2024년 1월 11일</p>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +128,7 @@ export default function Diary({date}) {
                                 ))}
                             </div>
                             <ImageUpload/>
-                            <LocationUpload />
+                            <LocationUpload data={locationData.state} />
                         </div>
                         {/* 하단 오른쪽 */}
                         <div className="sm:col-span-8">
