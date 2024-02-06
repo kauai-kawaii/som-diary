@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"; // 데이터 전달을 위한
 const {kakao} = window;
 export default function Location() {
     const navigate = useNavigate();
-    const [location, setLocation] = useState(''); // 사용자가 클릭한 위치 이름을 저장할 변수
+    const [location, setLocation] = useState([]); // 사용자가 클릭한 위치 이름을 저장할 변수
 
     useEffect(() => {
         let markers = [];
@@ -15,7 +15,7 @@ export default function Location() {
                 level: 3
             };
 
-        const map = new kakao.maps.Map(mapContainer, mapOption);
+        const map = new kakao.maps.Map(mapContainer, mapOption); // 지도생성
 
         const ps = new kakao.maps.services.Places();
 
@@ -68,7 +68,7 @@ export default function Location() {
                     itemEl = getListItem(i, places[i]);
 
                 bounds.extend(placePosition);
-                (function(marker, title) {
+                (function(marker, title,latitude,longitude) {
                     kakao.maps.event.addListener(marker, 'mouseover', function() {
                         displayInfowindow(marker, title);
                     });
@@ -79,6 +79,7 @@ export default function Location() {
 
                     itemEl.onmouseover =  function () {
                         displayInfowindow(marker, title);
+
                     };
 
                     itemEl.onmouseout =  function () {
@@ -86,16 +87,22 @@ export default function Location() {
                     };
 
                     itemEl.onclick =  function () {
-                        setLocation(title);
+                        const newLocation = {
+                            name: title,
+                            address:places[i].road_address_name,
+                            y: latitude,
+                            x: longitude,
+                        };
+
+                        setLocation([...location, newLocation]);
                     };
 
-                })(marker, places[i].place_name);
+                })(marker, places[i].place_name ,places[i].y, places[i].x,);
 
                 fragment.appendChild(itemEl);
             }
 
             listEl.appendChild(fragment);
-
             map.setBounds(bounds);
         }
 
@@ -201,7 +208,7 @@ export default function Location() {
                 value="확인"
                 onClick={() => {
                     if (location) {
-                        navigate(`/diary`, { state: { placename: location } });
+                        navigate(`/diary`, { state: { location } });
                     } else {
                         alert('위치를 선택하세요!');
                     }

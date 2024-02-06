@@ -12,7 +12,8 @@ import { useLocation } from 'react-router-dom';
 
 export default function Diary() {
     const locationData = useLocation();
-    console.log(locationData.state);
+    const locationInfo = locationData.state.location[0]
+    console.log(locationInfo);
     useEffect(() => {
         // const client_id = process.env.REACT_APP_CLIENT_ID;
         // const client_secret = process.env.REACT_APP_CLIENT_SECRET;
@@ -128,7 +129,7 @@ export default function Diary() {
                                 ))}
                             </div>
                             <ImageUpload/>
-                            <LocationUpload data={locationData.state} />
+                            <LocationUpload data={locationInfo} />
                         </div>
                         {/* 하단 오른쪽 */}
                         <div className="sm:col-span-8">
