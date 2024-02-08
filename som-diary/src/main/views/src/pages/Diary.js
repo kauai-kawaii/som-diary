@@ -81,7 +81,7 @@ export default function Diary() {
                             </div>
                         </div>
                         {/* 날씨 */}
-                        <WeatherUpload />
+                        <WeatherUpload data={locationInfo}/>
                         {/* 기분 */}
                         <div className="block sm:col-span-1 mt-2" style={{ width: '40px'}}>
                             <ToolOptions content={ <div className="flex gap-2 ">
