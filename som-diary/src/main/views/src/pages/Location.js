@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom"; // 데이터 전달을 위한
 const {kakao} = window;
 export default function Location() {
     const navigate = useNavigate();
-    const [location, setLocation] = useState([]); // 사용자가 클릭한 위치 이름을 저장할 변수
-
+    const [location, setLocation] = useState([]);
     useEffect(() => {
+
         let markers = [];
 
         const mapContainer = document.getElementById('map'),
@@ -15,12 +15,9 @@ export default function Location() {
                 level: 3
             };
 
-        const map = new kakao.maps.Map(mapContainer, mapOption); // 지도생성
-
+        const map = new kakao.maps.Map(mapContainer, mapOption);
         const ps = new kakao.maps.services.Places();
-
         const infowindow = new kakao.maps.InfoWindow({zIndex:1});
-
         searchPlaces();
 
         function searchPlaces() {
@@ -32,7 +29,6 @@ export default function Location() {
                     alert('키워드를 입력해주세요!');
                     return false;
                 }
-
                 ps.keywordSearch( keyword, placesSearchCB);
             })
         }
