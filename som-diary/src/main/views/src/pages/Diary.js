@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 
 export default function Diary() {
     const locationData = useLocation();
-    const locationInfo = locationData.state.location[0]
+    const locationInfo = locationData.state ? locationData.state.location[0] : null;
     console.log(locationInfo);
     useEffect(() => {
         // const client_id = process.env.REACT_APP_CLIENT_ID;
