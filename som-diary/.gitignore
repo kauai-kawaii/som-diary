@@ -36,7 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 
+###
 src/main/resources/static/static/
+asset-manifest.json
+application.properties
 .env
 
 ### macOS ###
