@@ -37,6 +37,7 @@ out/
 .vscode/
 
 src/main/resources/static/static/
+asset-manifest.json
 .env
 
 ### macOS ###
