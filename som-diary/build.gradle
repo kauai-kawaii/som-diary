@@ -1,3 +1,23 @@
+buildscript {
+	ext {
+		springBootVersion = '3.2.1.RELEASE'
+		mooworkVersion = '1.2.0'
+	}
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("com.moowork.gradle:gradle-node-plugin:${mooworkVersion}")
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
@@ -31,6 +51,7 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 tasks.named('test') {
