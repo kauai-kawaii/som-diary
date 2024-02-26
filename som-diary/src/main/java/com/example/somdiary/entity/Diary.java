@@ -34,7 +34,7 @@ public class Diary {
     private String diaryPhoto;
 
     // 날짜
-    @Column(name = "diary_date", nullable = false)
+    @Column(name = "diary_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date diaryDate;
 
@@ -52,10 +52,10 @@ public class Diary {
     @Column(name="diary_visit_rate")
     private String diaryVisitRate;
 
-    @Column(name = "diary_title", length = 100, nullable = false)
+    @Column(name = "diary_title")
     private String diaryTitle;
 
-    @Column(name = "diary_writing", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "diary_writing")
     private String diaryWriting;
 
     @Column(name = "diary_weather")
@@ -63,7 +63,7 @@ public class Diary {
 
     public static Diary createDiary(DiaryDto dto, User user) {
         if(dto.getDiaryId() != null)
-            throw new IllegalArgumentException("다이어리 생성 실패, 다이어리 id가 없어야 한다.");
+            throw new IllegalArgumentException("다이어리 생성 실패, 다이어리 id가 없어야 합니다.");
 
         System.out.println("DiaryDto의 사용자 ID: " + dto.getUserId());
 
@@ -79,10 +79,12 @@ public class Diary {
                 dto.getDiaryFeeling(),
                 dto.getDiaryLatitude(),
                 dto.getDiaryLongitude(),
-                dto.getDiaryTitle(),
-                dto.getDiaryWeather(),
                 dto.getDiaryVisitRate(),
-                dto.getDiaryWriting()
+                dto.getDiaryTitle(),
+                dto.getDiaryWriting(),
+                dto.getDiaryWeather()
+
+
         );
     }
 }

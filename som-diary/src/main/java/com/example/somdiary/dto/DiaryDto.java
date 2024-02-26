@@ -34,12 +34,12 @@ public class DiaryDto {
                 diary.getDiaryPhoto(),
                 diary.getDiaryDate(),
                 diary.getDiaryFeeling(),
-                diary.getDiaryLongitude(),
                 diary.getDiaryLatitude(),
-                diary.getDiaryTitle(),
-                diary.getDiaryWeather(),
+                diary.getDiaryLongitude(),
                 diary.getDiaryVisitRate(),
-                diary.getDiaryWriting()
+                diary.getDiaryTitle(),
+                diary.getDiaryWriting(),
+                diary.getDiaryWeather()
         );
     }
 }
