@@ -4,56 +4,63 @@ import WeatherUpload from '../components/diary/WeatherUpload';
 import ToolOptions from '../components/diary/Options'
 import { useState,useEffect } from 'react';
 import Music from '../components/diary/Music';
-import {Link, useNavigate} from 'react-router-dom';
-// import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import {Link, useNavigate , useLocation} from 'react-router-dom';
 
 export default function Diary() {
-    // const navigate = useNavigate();
+
+    const navigate = useNavigate();
     const [selectedRate, setSelectedRate] = useState('위치 별점주기');
     const rates = ['0점', '1점', '2점', '3점', '4점', '5점', '취소'];
     const locationData = useLocation();
     const locationInfo = locationData.state ? locationData.state.location[0] : null;
-    // console.log(locationInfo);
+    const address = locationInfo?.address ?? null;
+    const name = locationInfo ? locationInfo.name : null;
+    const y = locationInfo ? locationInfo.y : null;
+    const x = locationInfo ? locationInfo.x : null;
 
     const images = Array(4).fill(process.env.PUBLIC_URL + '/img/rabbit.jpg');
-    const [selectedEmoji, setSelectedEmoji] = useState('😶');
-    const emojis = ['😶','😊', '😥', '🤗', '🤬','🥰'];
+    const [selectedEmoji, setSelectedEmoji] = useState('기분');
+    const emojis = ['😊', '😥', '🤗', '🤬','🥰'];
 
-    // 이미지 불러오기
     // const [selectedImage, setSelectedImage] = useState(null);
-
-
-    // 날씨 불러오기
     const [selectedWeather, setSelectedWeather] = useState(null);
-
     const handleEmojiClick = (emoji) => {
         setSelectedEmoji(emoji);
     };
-
     const handleVisitRateClick = (rate) => {
-        setSelectedRate(rate === "취소" ? '위치 별점주기' : rate);
+        setSelectedRate(rate == "취소" ? "위치 별점주기" : rate);
     };
-
     const handleWeatherChange = (weatherData) => {
-        setSelectedWeather(weatherData)
+            setSelectedWeather(weatherData);
     }
 
     useEffect(() => {
+        const inputTitle =  document.querySelector('#title').value
+        const inputWriting = document.querySelector('#content').value
         const handleButtonClick = (event) => {
+            // const titleValue = inputTitle.trim();
             event.preventDefault();
             const diaryData = {
                 userId: document.querySelector("#new-diary-user-id").value,
                 diaryPhoto: "사진없음",
                 diaryDate: document.querySelector('#date').textContent,
-                diaryFeeling: selectedEmoji,
-                diaryLatitude: locationInfo.y,
-                diaryLongitude: locationInfo.x,
-                diaryVisitRate: selectedRate,
-                diaryTitle: document.querySelector('#title').value,
-                diaryWriting: document.querySelector('#content').value,
-                diaryWeather: selectedWeather.temperature + selectedWeather.description
+                diaryFeeling: selectedEmoji === '😊' ? '행복' : selectedEmoji === '😥' ? "슬픔" : selectedEmoji === '🤗' ? "신남" : selectedEmoji === '🤬' ? "화남" : selectedEmoji === "🥰" ? "하트" : selectedEmoji === '기분' ? null : selectedEmoji,
+                diaryLatitude: y,
+                diaryLongitude: x,
+                diaryVisitRate: selectedRate === "취소" || "위치 별점주기" ? null : selectedRate,
+                diaryTitle:  inputTitle,
+                diaryWriting: inputWriting,
+                diaryWeather: selectedWeather === "null" ? null : selectedWeather.temperature
             };
+            // if (diaryData.diaryTitle === null) {
+            //     alert("다이어리 제목을 입력하세요.");
+            //     return;
+            // }
+            //
+            // if (diaryData.diaryWriting === null) {
+            //     alert("다이어리 내용을 입력하세요.");
+            //     return;
+            // }
             console.log(diaryData);
             const url = "/api/user/" + diaryData.userId + "/diary";
             fetch(url, {
@@ -62,6 +69,11 @@ export default function Diary() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(diaryData)
+            }).then(response => {
+                const msg = (response.ok) ? "다이어리가 등록됐습니다!" : "다이어리 등록 실패";
+                alert(msg);
+
+                navigate("/main")
             });
         };
 
@@ -148,10 +160,10 @@ export default function Diary() {
                             {locationInfo && (
                                 <>
                                     <p className="mt-2 text-center text-sm leading-6 text-gray-600">
-                                        {locationInfo.address}
+                                        {address}
                                     </p>
                                     <p className="mt-2 text-center text-sm leading-6 text-gray-600">
-                                        {locationInfo.name}
+                                        {name}
                                     </p>
                                 </>
                             )}
@@ -234,7 +246,7 @@ export default function Diary() {
             </div>
             {/* 취소, 저장 버튼 */}
             <div className=" mr-20 flex items-center justify-end gap-x-6">
-                <Link to="/UserCalendar">
+                <Link to="/main">
                     <button type="button"
                             className="inline-flex items-center rounded-md bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                         취소
