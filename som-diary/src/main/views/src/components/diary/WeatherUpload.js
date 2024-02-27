@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-export default function WeatherUpload({ data }) {
+export default function WeatherUpload({ data, setWeatherData }) {
     const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-    const [weatherData, setWeatherData] = useState({
+    const [weatherInfo, setWeatherInfo] = useState({
         temperature: null,
         description: ""
     });
@@ -24,7 +24,7 @@ export default function WeatherUpload({ data }) {
                     }
 
                     const json = await response.json();
-                    setWeatherData({
+                    setWeatherInfo({
                         temperature: json.main.temp,
                         description: json.weather[0].description
                     });
@@ -35,7 +35,12 @@ export default function WeatherUpload({ data }) {
 
             getWeather(latitude, longitude);
         }
-    }, [data, WEATHER_API_KEY]);
+    }, []);
+
+    useEffect(() => {
+        // 날씨 정보가 변경될 때마다 Diary 컴포넌트로 업데이트된 날씨 정보 전달
+        setWeatherData(weatherInfo);
+    }, [weatherInfo, setWeatherData]);
 
     return (
         <div className="sm:col-span-2">
@@ -44,7 +49,7 @@ export default function WeatherUpload({ data }) {
                     {error ? (
                         <p className="text-center">{error}</p>
                     ) : (
-                        <p className="text-center">{weatherData.temperature !== null ? `${weatherData.temperature}℃ ${weatherData.description}` : '날씨 정보 없음'}</p>
+                        <p className="text-center">{weatherInfo.temperature !== null ? `${weatherInfo.temperature}℃ ${weatherInfo.description}` : '날씨 정보 없음'}</p>
                     )}
                 </div>
             </div>

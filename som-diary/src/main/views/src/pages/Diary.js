@@ -1,87 +1,100 @@
-import ImageUpload from '../components/diary/ImageUpload';
-import LocationUpload from '../components/diary/LocationUpload';
+// import ImageUpload from '../components/diary/ImageUpload';
 import Logo from '../components/Logo';
-import SaveButton from '../components/diary/SaveButton';
 import WeatherUpload from '../components/diary/WeatherUpload';
 import ToolOptions from '../components/diary/Options'
-import { useEffect, useState } from 'react';
+import { useState,useEffect } from 'react';
 import Music from '../components/diary/Music';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import {Link, useNavigate} from 'react-router-dom';
+// import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 export default function Diary() {
+    // const navigate = useNavigate();
+    const [selectedRate, setSelectedRate] = useState('위치 별점주기');
+    const rates = ['0점', '1점', '2점', '3점', '4점', '5점', '취소'];
     const locationData = useLocation();
     const locationInfo = locationData.state ? locationData.state.location[0] : null;
-    console.log(locationInfo);
-    useEffect(() => {
-        // const client_id = process.env.REACT_APP_CLIENT_ID;
-        // const client_secret = process.env.REACT_APP_CLIENT_SECRET;
-        // console.log(client_id)
-        //
-        // const authOptions = {
-        //     url: 'https://accounts.spotify.com/api/token',
-        //     headers: {
-        //         'Authorization': 'Basic ' + btoa(`${client_id}:${client_secret}`)
-        //     },
-        //     data: 'grant_type=client_credentials'
-        // };
-        //
-        // axios.post(authOptions.url, authOptions.data, { headers: authOptions.headers })
-        //     .then(response => {
-        //         const token = response.data.access_token;
-        //         console.log(token);
-        //         fetchArtist(token);
-        //     })
-        //     .catch(error => {
-        //         console.error('Spotify access token fetching error:', error);
-        //     });
-        //
-        // async function fetchArtist(token) {
-        //     try {
-        //         const result = await fetch(`https://api.spotify.com/v1/artists/0CmvFWTX9zmMNCUi6fHtAx`, {
-        //             // method: "GET",
-        //             headers: { Authorization: `Bearer ${token}` }
-        //         });
-        //
-        //         if (!result.ok) {
-        //             throw new Error(`Failed to fetch user profile. Status: ${result.status}`);
-        //         }
-        //
-        //         const artistInfo = await result.json();
-        //         console.log(artistInfo);
-        //     } catch (error) {
-        //         console.error('Error fetching user profile:', error);
-        //     }
-        // }
-
-
-    }, []);
+    // console.log(locationInfo);
 
     const images = Array(4).fill(process.env.PUBLIC_URL + '/img/rabbit.jpg');
     const [selectedEmoji, setSelectedEmoji] = useState('😶');
     const emojis = ['😶','😊', '😥', '🤗', '🤬','🥰'];
+
+    // 이미지 불러오기
+    // const [selectedImage, setSelectedImage] = useState(null);
+
+
+    // 날씨 불러오기
+    const [selectedWeather, setSelectedWeather] = useState(null);
+
     const handleEmojiClick = (emoji) => {
         setSelectedEmoji(emoji);
     };
 
+    const handleVisitRateClick = (rate) => {
+        setSelectedRate(rate === "취소" ? '위치 별점주기' : rate);
+    };
+
+    const handleWeatherChange = (weatherData) => {
+        setSelectedWeather(weatherData)
+    }
+
+    useEffect(() => {
+        const handleButtonClick = (event) => {
+            event.preventDefault();
+            const diaryData = {
+                userId: document.querySelector("#new-diary-user-id").value,
+                diaryPhoto: "사진없음",
+                diaryDate: document.querySelector('#date').textContent,
+                diaryFeeling: selectedEmoji,
+                diaryLatitude: locationInfo.y,
+                diaryLongitude: locationInfo.x,
+                diaryVisitRate: selectedRate,
+                diaryTitle: document.querySelector('#title').value,
+                diaryWriting: document.querySelector('#content').value,
+                diaryWeather: selectedWeather.temperature + selectedWeather.description
+            };
+            console.log(diaryData);
+            const url = "/api/user/" + diaryData.userId + "/diary";
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(diaryData)
+            });
+        };
+
+        const diaryCreateBtn = document.querySelector('#saveButton');
+        if (diaryCreateBtn) {
+            diaryCreateBtn.addEventListener("click", handleButtonClick);
+        }
+
+        return () => {
+            if (diaryCreateBtn) {
+                diaryCreateBtn.removeEventListener("click", handleButtonClick);
+            }
+        };
+    }, [selectedRate, selectedEmoji, locationInfo, selectedWeather]);
+
+
     return (
-        <form>
+        <form action=" ">
             <div className="space-y-12 ">
                 <div className="m-20 mb-5 border-b border-gray-900/10 pb-12">
                     <Logo/>
                     {/* 상단 정보: 날짜 날씨 기분 노래*/}
                     <div className="mt-10 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-10">
                         {/* 날짜 */}
-                        <div className="sm:col-span-2 sm:col-start-1">
+                        <div  className="sm:col-span-2 sm:col-start-1">
                             <div className="mt-2">
                                 <div className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
-                                    <p className='text-center'>2024년 1월 11일</p>
+                                    <p id = "date" className='text-center'>2024-02-24</p>
                                 </div>
                             </div>
                         </div>
                         {/* 날씨 */}
-                        <WeatherUpload data={locationInfo}/>
+                        <WeatherUpload setWeatherData = {handleWeatherChange} data={locationInfo}/>
                         {/* 기분 */}
                         <div className="block sm:col-span-1 mt-2" style={{ width: '40px'}}>
                             <ToolOptions content={ <div className="flex gap-2 ">
@@ -118,18 +131,78 @@ export default function Diary() {
                         {/* 하단 왼쪽: 사진 업로드, 위치 불러오기 */}
                         <div className="sm:col-span-2">
                             {/* 중간에 토끼 */}
-                            <div className="pt-5 gap-5 flex flex-wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div className="pt-5 gap-5 flex flex-wrap"
+                                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                 {images.map((image, index) => (
                                     <img
                                         key={index}
                                         src={image}
                                         alt='x'
-                                        style={{ width: '40px' }}
+                                        style={{width: '40px'}}
                                     />
                                 ))}
                             </div>
-                            <ImageUpload/>
-                            <LocationUpload data={locationInfo} />
+                            {/*<ImageUpload onImageChange={handleImageChange}/>*/}
+
+                            {/*위치업로드*/}
+                            {locationInfo && (
+                                <>
+                                    <p className="mt-2 text-center text-sm leading-6 text-gray-600">
+                                        {locationInfo.address}
+                                    </p>
+                                    <p className="mt-2 text-center text-sm leading-6 text-gray-600">
+                                        {locationInfo.name}
+                                    </p>
+                                </>
+                            )}
+                            <div className="mt-9">
+                                <Link to={'/search-location'}>
+                                    <div className="mt-3">
+                                        <div
+                                            className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                            style={{cursor: 'pointer'}}
+                                        >
+                                            <p className="text-center"
+                                               >위치 검색</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                                <div className="pt-3" style={{cursor: 'pointer'}}>
+                                    <ToolOptions
+                                        content={
+                                            <div className="flex gap-2">
+                                                {rates.map((rate, index) => (
+                                                    <div
+                                                        key={index}
+                                                        style={{cursor: 'pointer', top: '0', left: '0'}}
+                                                        onClick={() => handleVisitRateClick(rate)}
+                                                    >
+                                                        <div
+                                                            className="p-1 hover:bg-blue-100 block w-full rounded-full border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            style={{cursor: 'pointer'}}
+                                                        >
+                                                            <p className="text-center">{rate}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        }
+                                    >
+                                        <div
+                                            className="block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            style={{cursor: 'pointer'}}
+                                        >
+                                            <p className="text-center">
+                                                {selectedRate}
+                                                {/*{selectedRate === '0점' ? '⚡' : selectedRate === '1점' ? '⭐' : selectedRate === '2점' ? '⭐⭐' : selectedRate === '3점'*/}
+                                                {/*                ? '⭐⭐⭐' : selectedRate === '4점' ? '⭐⭐⭐⭐' : selectedRate === '5점' ? '⭐⭐⭐⭐⭐' : selectedRate}*/}
+                                            </p>
+                                        </div>
+                                    </ToolOptions>
+                                </div>
+                            </div>
+
+
                         </div>
                         {/* 하단 오른쪽 */}
                         <div className="sm:col-span-8">
@@ -138,20 +211,22 @@ export default function Diary() {
                                     placeholder='제목'
                                     type="text"
                                     name="title"
-                                    id="first-name"
+                                    id="title"
                                     autoComplete="given-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-200 sm:text-sm sm:leading-6 mt-2"
                                 />
                             </div>
 
                             <div className="mt-3">
-                  <textarea
-                      id="about"
-                      name="about"
-                      rows={20}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-200 sm:text-sm sm:leading-6 mt-2"
-                      defaultValue={''}
-                  />
+                              <textarea
+                                  id="content"
+                                  name="about"
+                                  rows={20}
+                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-200 sm:text-sm sm:leading-6 mt-2"
+                                  defaultValue={''}
+                              />
+                                <input type="hidden" id = "new-diary-user-id" value="123"></input>
+
                             </div>
                         </div>
                     </div>
@@ -160,11 +235,18 @@ export default function Diary() {
             {/* 취소, 저장 버튼 */}
             <div className=" mr-20 flex items-center justify-end gap-x-6">
                 <Link to="/UserCalendar">
-                    <button type="button" className="inline-flex items-center rounded-md bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                    <button type="button"
+                            className="inline-flex items-center rounded-md bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                         취소
                     </button>
                 </Link>
-                <SaveButton/>
+                <button
+                    type="button"
+                    className="inline-flex items-center rounded-md bg-blue-50 px-3 py-2 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
+                    id = "saveButton"
+                >
+                    저장
+                </button>
             </div>
         </form>
     )

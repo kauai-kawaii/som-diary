@@ -1,5 +1,5 @@
 import React, {useEffect,useState } from "react";
-import { useNavigate } from "react-router-dom"; // 데이터 전달을 위한
+import { useNavigate } from "react-router-dom";
 
 const {kakao} = window;
 export default function Location() {
@@ -15,7 +15,7 @@ export default function Location() {
                 level: 3
             };
 
-        const map = new kakao.maps.Map(mapContainer, mapOption); // 지도생성
+        const map = new kakao.maps.Map(mapContainer, mapOption);
 
         const ps = new kakao.maps.services.Places();
 
@@ -168,7 +168,7 @@ export default function Location() {
                 el.removeChild (el.lastChild);
             }
         }
-    }, [location]);
+    }, []);
 
     return (
         <div className="p-5">
