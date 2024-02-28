@@ -10,6 +10,7 @@ export default function Diary() {
 
     const navigate = useNavigate();
     const [selectedRate, setSelectedRate] = useState('위치 별점주기');
+    const [writingData, setWritingData] = useState('')
     const rates = ['0점', '1점', '2점', '3점', '4점', '5점', '취소'];
     const locationData = useLocation();
     const locationInfo = locationData.state ? locationData.state.location[0] : null;
@@ -22,6 +23,11 @@ export default function Diary() {
     const [selectedEmoji, setSelectedEmoji] = useState('기분');
     const emojis = ['😊', '😥', '🤗', '🤬','🥰'];
 
+    // 일기내용
+    const handleWritingChange = (event) => {
+        setWritingData(event.target.value);
+    }
+
     // const [selectedImage, setSelectedImage] = useState(null);
     const [selectedWeather, setSelectedWeather] = useState(null);
     const handleEmojiClick = (emoji) => {
@@ -33,6 +39,8 @@ export default function Diary() {
     const handleWeatherChange = (weatherData) => {
             setSelectedWeather(weatherData);
     }
+
+    // 음악 추천
 
     useEffect(() => {
         const inputTitle =  document.querySelector('#title').value
@@ -49,7 +57,7 @@ export default function Diary() {
                 diaryLongitude: x,
                 diaryVisitRate: selectedRate === "취소" || "위치 별점주기" ? null : selectedRate,
                 diaryTitle:  inputTitle,
-                diaryWriting: inputWriting,
+                diaryWriting: writingData,
                 diaryWeather: selectedWeather === "null" ? null : selectedWeather.temperature
             };
             // if (diaryData.diaryTitle === null) {
@@ -135,7 +143,7 @@ export default function Diary() {
                             </ToolOptions>
                         </div>
                         {/* 노래 */}
-                        <Music/>
+                        <Music data = {writingData}/>
                     </div>
 
                     {/* 하단: 이미지, 일기 */}
@@ -236,8 +244,11 @@ export default function Diary() {
                                   rows={20}
                                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-200 sm:text-sm sm:leading-6 mt-2"
                                   defaultValue={''}
+                                  value={writingData}
+                                  onChange={handleWritingChange}
                               />
-                                <input type="hidden" id = "new-diary-user-id" value="123"></input>
+                                <p>다이어리 내용: {writingData}</p>
+                                <input type="hidden" id="new-diary-user-id" value="123"></input>
 
                             </div>
                         </div>
