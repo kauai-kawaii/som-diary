@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ToolOptions from "../get-tool-tips";
 
 const months = [
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
@@ -11,7 +12,7 @@ const monthChunks = Array.from({ length: Math.ceil(months.length / chunkSize) },
 );
 const years = [2021, 2022, 2023, 2024, 2025, 2026, 2027];
 
-export default function DateSelector() {
+export default async function DateSelector() {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
@@ -32,12 +33,12 @@ export default function DateSelector() {
 
 
     // Construct the URL
-    const apiUrl = `http://localhost:8081/api/data?year=${diaryYear}&month=${diaryMonth}`;
+    const apiUrl = `http://localhost:8081/api/insight/data?year=${selectedYear}&month=${selectedMonth}`;
 
-    let yearAndMonthJson = JSON.stringify({ year: diaryYear, month: diaryMonth }); // '{"year":2024,"month":1}'
+    let yearAndMonthJson = JSON.stringify({ year: selectedYear, month: selectedMonth }); // '{"year":2024,"month":1}'
 
     // Make the fetch request
-    fetch(apiUrl)
+    await fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.status}`);

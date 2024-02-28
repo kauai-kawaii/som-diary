@@ -2,9 +2,11 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL}
+    url: jdbc:mysql://kawaii-instance.cchvgru0wpfm.ap-northeast-2.rds.amazonaws.com:3306/somdiary?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    # url: ${SPRING_DATASOURCE_URL}
     username: kawaii
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    # password: ${SPRING_DATASOURCE_PASSWORD}
+    password: 00000000
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -13,4 +15,4 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        format_sql: true
+        format-sql: true

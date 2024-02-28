@@ -5,22 +5,25 @@ import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "diary")
 public class DiaryModel {
     @Id
     @Column(name = "diary_id")
     int diaryId;
 
-    @OneToMany(mappedBy = "userId")
-    @Column(name = "user_id_fk")
-    DiaryModel userIdFk;
+    @ManyToOne
+    @JoinColumn(name = "user_id_fk")
+    UserModel userIdFk;
 
-    @OneToMany(mappedBy = "trackId")
-    @Column(name = "track_id_fk")
+    @ManyToOne
+    @JoinColumn(name = "track_id_fk")
     TrackModel trackIdFk;
 
     @Column(name = "diary_date")
@@ -40,4 +43,22 @@ public class DiaryModel {
 
     @Column(name = "diary_visit_rate")
     String diaryVisitRate;
+
+    // Empty constructor
+    public DiaryModel() {
+    }
+
+    // Full Contructor
+    public DiaryModel(int diaryId, UserModel userIdFk, TrackModel trackIdFk, LocalDate diaryDate, String diaryPhoto,
+            String diaryFeeling, String diaryLatitude, String diaryLongitude, String diaryVisitRate) {
+        this.diaryId = diaryId;
+        this.userIdFk = userIdFk;
+        this.trackIdFk = trackIdFk;
+        this.diaryDate = diaryDate;
+        this.diaryPhoto = diaryPhoto;
+        this.diaryFeeling = diaryFeeling;
+        this.diaryLatitude = diaryLatitude;
+        this.diaryLongitude = diaryLongitude;
+        this.diaryVisitRate = diaryVisitRate;
+    }
 }

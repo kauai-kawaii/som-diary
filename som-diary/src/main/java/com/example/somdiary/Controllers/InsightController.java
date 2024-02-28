@@ -1,13 +1,18 @@
 package com.example.somdiary.Controllers;
 
-import org.hibernate.mapping.List;
+// import org.hibernate.mapping.List;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.somdiary.Repository.monthlyMusicRepository;
 
 import java.time.LocalDate;
-import java.util.*;
 import com.example.somdiary.Models.DiaryModel;
+// import com.example.somdiary.Models.UserModel;
+// import com.example.somdiary.Models.TrackModel;
+
+import java.util.ArrayList;
+import java.util.List; // Import the correct List class
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -21,26 +26,24 @@ public class InsightController {
      * set the month variable named 'month' and year variable named 'year'
      */
     @GetMapping("/insight")
-    public String monthYearPick(@RequestParam(name = "diaryMonth") String month,
-            @RequestParam(name = "diaryYear") String year) {
+    public @ResponseBody List<String> monthYearPick(@RequestParam(name = "selectedMonth") String month,
+            @RequestParam(name = "selectedYear") String year) {
 
         // Getting the first day of the month for the diary within such month and year
         LocalDate firstDayOfMonth = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), 1);
-        // Getting the end day of the month for the diary within such month and year
-        LocalDate lastDayOfMonth = firstDayOfMonth.plusMonths(1).minusDays(1);
+        // Getting the last day of the month for the diary within such month and year
+        LocalDate lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth());
 
-        /*
-         * Get the list of songs from the database "diary" table. Use repository
-         * "monthlyMusicRepository" to fetch the data
-         * The data is filtered by the month and year
-         * The data is fetched from the database and stored in the list
-         */
+        List<DiaryModel> listOfDiary = monthlyMusicRepository
+                .findByDiaryDateBetweenDiaryDate(firstDayOfMonth,
+                        lastDayOfMonth);
+        ArrayList<String> listOfSongs = new ArrayList<String>();
+        // parse trackID for Spotify getTrack API
+        for (DiaryModel diary : listOfDiary) {
+            listOfSongs.add(diary.getTrackIdFk().toString());
+        }
 
-        // return the list of songs
-        List<DiaryModel> songs = monthlyMusicRepository.findByDiaryDateBetweenDiaryDate(firstDayOfMonth,
-                lastDayOfMonth);
-
-        return "insight";
+        return listOfSongs;
     }
 
 }

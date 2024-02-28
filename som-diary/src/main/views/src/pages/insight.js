@@ -2,6 +2,7 @@ import YearPicker from "../components/GetDates/select-year";
 import MonthPicker from "../components/GetDates/select-month";
 import SpotifyHorizonSongList from "../components/SpotifyMusicDisplay/get-monthly-list";
 import NaverMapsStars from "../components/MapApiDisplay/NaverMapsStars";
+import DateSelector from "../components/SpotifyMusicDisplay/fetch-spotify-songs";
 
 export default function Insight() {
   /* <Logo /> */
@@ -11,8 +12,7 @@ export default function Insight() {
         <header className="col-span-1">
           <h1 className="text-2xl ml-4 mt-4">Dashboard</h1>
           <div className="flex">
-            <YearPicker />
-            <MonthPicker />
+            <DateSelector />
           </div>
         </header>
         <main className="col-span-4">
