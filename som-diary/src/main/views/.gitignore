@@ -25,3 +25,4 @@ yarn-error.log*
 src/main/resources/static/static/
 
 .env
+src/main/resources/config.properties/
