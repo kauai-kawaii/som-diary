@@ -1,15 +1,25 @@
 import Tooltip from './PopUp';
 import {GoogleGenerativeAI} from "@google/generative-ai";
 import {useState} from "react";
+import axios from 'axios';
+
 
 export default function Music({userName, data}){
     const [musicData, setMusicData] = useState('오늘의 노래')
+    const [spotifyToken, setSpotifyToken] = useState('');
     const AI_API_KEY = process.env.REACT_APP_GENERATIVE_AI;
     // console.log(AI_API_KEY)
 
-    const handleClick = () => {
+    const handleClick = async () => {
         console.log("다이어리 내용:", data);
         const genAI = new GoogleGenerativeAI(AI_API_KEY);
+        try {
+            const response = await axios.get('/spotify/token');
+            setSpotifyToken(response.data);
+            console.log("spotify access token: ", response.data);
+        } catch (error) {
+            console.error('Error fetching Spotify token:', error);
+        }
 
         async function run() {
             const model = genAI.getGenerativeModel({model: "gemini-pro"});
@@ -18,7 +28,7 @@ export default function Music({userName, data}){
             const response = await result.response;
             const text = response.text();
             setMusicData(text);
-            // console.log(text);
+            console.log(text);
         }
 
         run();
