@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -35,8 +36,8 @@ public class Diary {
 
     // 날짜
     @Column(name = "diary_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date diaryDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate diaryDate;
 
     // 기분
     @Column(name = "diary_feeling")
@@ -52,10 +53,10 @@ public class Diary {
     @Column(name="diary_visit_rate")
     private String diaryVisitRate;
 
-    @Column(name = "diary_title")
+    @Column(name = "diary_title", nullable = false)
     private String diaryTitle;
 
-    @Column(name = "diary_writing")
+    @Column(name = "diary_writing", nullable = false)
     private String diaryWriting;
 
     @Column(name = "diary_weather")
@@ -69,7 +70,7 @@ public class Diary {
 
         if (dto.getUserId() == null || !dto.getUserId().equals(user.getId()))
             throw new IllegalArgumentException("다이어리 생성 실패, 사용자의 id가 잘못됐습니다.");
-        //엔티티 생성 및 반환
+//        엔티티 생성 및 반환
         return new Diary(
                 dto.getDiaryId(),
                 user,
@@ -83,8 +84,6 @@ public class Diary {
                 dto.getDiaryTitle(),
                 dto.getDiaryWriting(),
                 dto.getDiaryWeather()
-
-
         );
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class DiaryDto {
     private String userId;
 //    private Long trackId;
     private String diaryPhoto;
-    private Date diaryDate;
+    private LocalDate diaryDate;
     private String diaryFeeling;
     private String diaryLatitude;
     private String diaryLongitude;
