@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 function GoogleLoginButton() {
     // 구글 소셜 로그인 클라이언트 ID와 리다이렉션 URL
-    const googleClientId = '474242660633-4c8dskcflpruc8ip83fp6udr724lg5qo.apps.googleusercontent.com';
+    const googleClientId = '474242660633-9dom442su8g97qm9t2ki6gqbjnbg8shv.apps.googleusercontent.com';
     const redirectUrl = 'http://localhost:8081/login/oauth2/code/google';
 
     const handleGoogleLogin = () => {
