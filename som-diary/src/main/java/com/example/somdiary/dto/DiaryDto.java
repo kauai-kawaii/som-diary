@@ -43,4 +43,7 @@ public class DiaryDto {
                 diary.getDiaryWeather()
         );
     }
+    public DiaryDto toEntity() {
+        return new DiaryDto(diaryId, userId, diaryPhoto,diaryDate, diaryFeeling, diaryLatitude, diaryLongitude, diaryVisitRate, diaryTitle, diaryWriting, diaryWeather);
+    }
 }

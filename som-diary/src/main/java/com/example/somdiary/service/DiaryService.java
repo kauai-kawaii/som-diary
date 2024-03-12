@@ -46,4 +46,18 @@ public class DiaryService {
         // DTO로 변환 반환
         return DiaryDto.createdDiaryDto(created);
     }
+
+    @Transactional
+    public DiaryDto updateDiaryByUserIdAndDiaryDate(String userId, LocalDate parsedDate, DiaryDto dto) {
+        // 타깃 조회하기
+        List<Diary> diaries = diaryRepository.findByUserIdAndDiaryDate(userId, parsedDate);
+        if (diaries.isEmpty()) {
+            throw new IllegalArgumentException("해당 사용자와 날짜에 대한 다이어리를 찾을 수 없습니다.");
+        }
+        // 업데이트
+        Diary target = diaries.get(0);
+        target.patch(dto);
+        Diary updated = diaryRepository.save(target);
+        return DiaryDto.createdDiaryDto(updated);
+    }
 }

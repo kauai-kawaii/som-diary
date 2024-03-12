@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -24,11 +25,22 @@ public class DiaryController {
     @Autowired
     private DiaryService diaryService;
 
-    @GetMapping("/user/{userId}/{dairy_date}")
-    public ResponseEntity<DiaryDto> getDiariesByUserIdAndDate(@PathVariable String userId, @PathVariable String dairy_date) {
-        LocalDate parsedDate = LocalDate.parse(dairy_date);
+    @GetMapping("/user/{userId}/{diary_date}")
+    public ResponseEntity<DiaryDto> getDiariesByUserIdAndDate(@PathVariable String userId, @PathVariable String diary_date) {
+        LocalDate parsedDate = LocalDate.parse(diary_date);
         DiaryDto diary = diaryService.getDiaryByUserIdAndDiaryDate(userId, parsedDate);
         return ResponseEntity.ok(diary);
+    }
+
+
+    // 다이어리 업데이트
+    @PutMapping("/user/{userId}/{diary_date}")
+    public ResponseEntity<DiaryDto> updateDiaryByUserIdAndDate(@PathVariable String userId, @PathVariable String diary_date, @RequestBody DiaryDto dto) {
+        LocalDate parsedDate = LocalDate.parse(diary_date);
+        DiaryDto updated = diaryService.updateDiaryByUserIdAndDiaryDate(userId, parsedDate, dto);
+        return (updated != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(updated):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping("/api/user/{userId}/diary")

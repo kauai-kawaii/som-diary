@@ -86,4 +86,18 @@ public class Diary {
                 dto.getDiaryWeather()
         );
     }
+
+    public void patch(DiaryDto dto) {
+        if (this.diaryId != dto.getDiaryId()) throw new IllegalArgumentException("다이어리 수정 실패! 잘못된 id가 입력되었습니다.");
+        // 객체 갱신
+        if(dto.getDiaryPhoto() != null) this.diaryPhoto = dto.getDiaryPhoto();
+        if(dto.getDiaryDate() != null) this.diaryDate = dto.getDiaryDate();
+        if(dto.getDiaryFeeling() != null) this.diaryFeeling = dto.getDiaryFeeling();
+        if(dto.getDiaryLatitude() != null) this.diaryLatitude = dto.getDiaryLatitude();
+        if(dto.getDiaryLongitude() != null) this.diaryLongitude = dto.getDiaryLongitude();
+        if(dto.getDiaryVisitRate() != null) this.diaryVisitRate = dto.getDiaryVisitRate();
+        if(dto.getDiaryTitle() != null) this.diaryTitle = dto.getDiaryTitle();
+        if(dto.getDiaryWriting() != null) this.diaryWriting = dto.getDiaryWriting();
+        if(dto.getDiaryWeather() != null) this.diaryWeather = dto.getDiaryWeather();
+    }
 }
