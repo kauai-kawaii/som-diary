@@ -17,7 +17,7 @@ public class User {
     @Column
     private String userName;
 
-//    private String email;
+    private String userEmail;
 
-//    private String role;
+    private String role;
 }
