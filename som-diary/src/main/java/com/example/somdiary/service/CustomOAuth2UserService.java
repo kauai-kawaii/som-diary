@@ -3,6 +3,7 @@ package com.example.somdiary.service;
 import com.example.somdiary.dto.CustomOAuth2User;
 import com.example.somdiary.dto.GoogleResponse;
 import com.example.somdiary.dto.OAuth2Response;
+import com.example.somdiary.dto.UserDTO;
 import com.example.somdiary.entity.User;
 import com.example.somdiary.repository.UserRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -28,7 +29,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println(oAuth2User.getAttributes());
+        System.out.println(oAuth2User);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response = null;
@@ -36,7 +37,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 소셜 로그인 종류 조건 필터링
         if (registrationId.equals("google")) {
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
-        } else  {
+        } else {
             return null;
         }
 
@@ -46,26 +47,36 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User existData = userRepository.findByUserName(userId);
 
         String role = "ROLE_USER";
+
         if (existData == null) {
 
             User userEntity = new User();
             userEntity.setUserId(userId);
+            userEntity.setUserEmail(oAuth2Response.getEmail());
             userEntity.setUserName(oAuth2Response.getName());
-//            userEntity.setRole(role);
+            userEntity.setRole("ROLE_USER");
 
             userRepository.save(userEntity);
-        }
-        else {
 
-            existData.setUserId(userId);
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername(userId);
+            userDTO.setName(oAuth2Response.getName());
+            userDTO.setRole("ROLE_USER");
+
+            return new CustomOAuth2User(userDTO);
+        } else {
+
+            existData.setUserEmail(oAuth2Response.getEmail());
             existData.setUserName(oAuth2Response.getName());
 
-//            role = existData.getRole();
-
             userRepository.save(existData);
-        }
 
-        return new CustomOAuth2User(oAuth2Response, role);
-        // 정리한 데이터 넘겨주게됨
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername(existData.getUserId());
+            userDTO.setName(oAuth2Response.getName());
+            userDTO.setRole(existData.getRole());
+
+            return new CustomOAuth2User(userDTO);
+        }
     }
 }
