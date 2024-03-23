@@ -48,4 +48,13 @@ public class DiaryController {
         DiaryDto createdDto = diaryService.create(userId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(createdDto);
     }
+
+    // 다이어리 삭제
+    @DeleteMapping("/api/diary/{diaryId}")
+    public ResponseEntity<DiaryDto> deleteDiary(@PathVariable Long diaryId){
+        Diary deleted = diaryService.delete(diaryId); // 게시글 삭제
+        return (deleted != null) ?
+            ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 }

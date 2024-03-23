@@ -4,11 +4,13 @@ import WeatherUpload from '../components/diary/WeatherUpload';
 import ToolOptions from '../components/diary/Options'
 import { useState,useEffect } from 'react';
 import Music from '../components/diary/Music';
-import {Link, useNavigate , useLocation} from 'react-router-dom';
+import {Link, useNavigate , useLocation, useParams} from 'react-router-dom';
 
 export default function Diary() {
 
+    const {save_date} = useParams();
     const navigate = useNavigate();
+    console.log('result:', result); // result 값을 콘솔에 출력
     const [selectedRate, setSelectedRate] = useState('위치 별점주기');
     const [writingData, setWritingData] = useState('')
     const rates = ['0점', '1점', '2점', '3점', '4점', '5점', '취소'];
@@ -109,7 +111,7 @@ export default function Diary() {
                         <div  className="sm:col-span-2 sm:col-start-1">
                             <div className="mt-2">
                                 <div className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
-                                    <p id = "date" className='text-center'>2024-02-24</p>
+                                    <p id = "date" className='text-center'>{result}</p>
                                 </div>
                             </div>
                         </div>
