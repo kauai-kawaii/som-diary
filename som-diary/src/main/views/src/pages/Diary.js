@@ -111,7 +111,7 @@ export default function Diary() {
                         <div  className="sm:col-span-2 sm:col-start-1">
                             <div className="mt-2">
                                 <div className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
-                                    <p id = "date" className='text-center'>{result}</p>
+                                    <p id = "date" className='text-center'>{save_date}</p>
                                 </div>
                             </div>
                         </div>
