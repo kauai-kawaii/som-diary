@@ -52,17 +52,17 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
 
 
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/main/**", "/diary/**", "/search-location").authenticated()
-                        .anyRequest().permitAll());
+//        http
+//                .authorizeHttpRequests((authorize) -> authorize
+//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+//                        .requestMatchers("/main/**", "/diary/**", "/search-location").authenticated()
+//                        .anyRequest().permitAll());
 
         http
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
-                        .successHandler(customSuccessHandler)
+//                        .successHandler(customSuccessHandler)
                 );
 
         http
