@@ -10,7 +10,6 @@ export default function Diary() {
 
     const {save_date} = useParams();
     const navigate = useNavigate();
-    console.log('result:', result); // result 값을 콘솔에 출력
     const [selectedRate, setSelectedRate] = useState('위치 별점주기');
     const [writingData, setWritingData] = useState('')
     const rates = ['0점', '1점', '2점', '3점', '4점', '5점', '취소'];
@@ -53,7 +52,7 @@ export default function Diary() {
             const diaryData = {
                 userId: document.querySelector("#new-diary-user-id").value,
                 diaryPhoto: "사진없음",
-                diaryDate: document.querySelector('#date').textContent,
+                diaryDate: save_date,
                 diaryFeeling: selectedEmoji === '😊' ? '행복' : selectedEmoji === '😥' ? "슬픔" : selectedEmoji === '🤗' ? "신남" : selectedEmoji === '🤬' ? "화남" : selectedEmoji === "🥰" ? "하트" : selectedEmoji === '기분' ? null : selectedEmoji,
                 diaryLatitude: y,
                 diaryLongitude: x,

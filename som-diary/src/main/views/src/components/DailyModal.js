@@ -45,7 +45,16 @@ function DailyModal({ setModalOpen, userId, date }) {
 
     // 해당 다이어리 삭제
     const deleteDiary = () => {
-
+        if(diary && window.confirm(`${diary.diaryDate} 다이어리를 정말 삭제할까요?`)){
+            axios.delete(`/api/diary/${diary.diaryId}`)
+                .then(function(response){
+                    console.log(response);
+                    closeModal();
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+        }
     }
 
     const closeModal = () => {
