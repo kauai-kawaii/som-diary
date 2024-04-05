@@ -38,7 +38,7 @@ public class DiaryService {
     @Transactional
     public DiaryDto create(String userId, DiaryDto dto) {
         // 유저 조회 및 예외 발생
-        User user = userRepository.findById(Long.valueOf(userId))
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저가 없음."));
         // 다이어리 엔티티 생성
         Diary diary = Diary.createDiary(dto, user);
