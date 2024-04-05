@@ -2,141 +2,307 @@
 .vscode/settings.json
 package.json
 package-lock.json
-node_modules/.package-lock.json
-node_modules/asynckit/bench.js
-node_modules/asynckit/index.js
-node_modules/asynckit/lib/abort.js
-node_modules/asynckit/lib/async.js
-node_modules/asynckit/lib/defer.js
-node_modules/asynckit/lib/iterate.js
-node_modules/asynckit/lib/readable_asynckit.js
-node_modules/asynckit/lib/readable_parallel.js
-node_modules/asynckit/lib/readable_serial.js
-node_modules/asynckit/lib/readable_serial_ordered.js
-node_modules/asynckit/lib/state.js
-node_modules/asynckit/lib/streamify.js
-node_modules/asynckit/lib/terminator.js
-node_modules/asynckit/LICENSE
-node_modules/asynckit/parallel.js
-node_modules/asynckit/README.md
-node_modules/asynckit/serial.js
-node_modules/asynckit/serialOrdered.js
-node_modules/asynckit/stream.js
-node_modules/axios/CHANGELOG.md
-node_modules/axios/dist/axios.js
-node_modules/axios/dist/axios.js.map
-node_modules/axios/dist/axios.min.js
-node_modules/axios/dist/axios.min.js.map
-node_modules/axios/dist/browser/axios.cjs
-node_modules/axios/dist/browser/axios.cjs.map
-node_modules/axios/dist/esm/axios.js
-node_modules/axios/dist/esm/axios.js.map
-node_modules/axios/dist/esm/axios.min.js
-node_modules/axios/dist/esm/axios.min.js.map
-node_modules/axios/dist/node/axios.cjs
-node_modules/axios/dist/node/axios.cjs.map
-node_modules/axios/index.d.cts
-node_modules/axios/index.d.ts
-node_modules/axios/index.js
-node_modules/axios/lib/adapters/adapters.js
-node_modules/axios/lib/adapters/http.js
-node_modules/axios/lib/adapters/README.md
-node_modules/axios/lib/adapters/xhr.js
-node_modules/axios/lib/axios.js
-node_modules/axios/lib/cancel/CanceledError.js
-node_modules/axios/lib/cancel/CancelToken.js
-node_modules/axios/lib/cancel/isCancel.js
-node_modules/axios/lib/core/Axios.js
-node_modules/axios/lib/core/AxiosError.js
-node_modules/axios/lib/core/AxiosHeaders.js
-node_modules/axios/lib/core/buildFullPath.js
-node_modules/axios/lib/core/dispatchRequest.js
-node_modules/axios/lib/core/InterceptorManager.js
-node_modules/axios/lib/core/mergeConfig.js
-node_modules/axios/lib/core/README.md
-node_modules/axios/lib/core/settle.js
-node_modules/axios/lib/core/transformData.js
-node_modules/axios/lib/defaults/index.js
-node_modules/axios/lib/defaults/transitional.js
-node_modules/axios/lib/env/classes/FormData.js
-node_modules/axios/lib/env/data.js
-node_modules/axios/lib/env/README.md
-node_modules/axios/lib/helpers/AxiosTransformStream.js
-node_modules/axios/lib/helpers/AxiosURLSearchParams.js
-node_modules/axios/lib/helpers/bind.js
-node_modules/axios/lib/helpers/buildURL.js
-node_modules/axios/lib/helpers/callbackify.js
-node_modules/axios/lib/helpers/combineURLs.js
-node_modules/axios/lib/helpers/cookies.js
-node_modules/axios/lib/helpers/deprecatedMethod.js
-node_modules/axios/lib/helpers/formDataToJSON.js
-node_modules/axios/lib/helpers/formDataToStream.js
-node_modules/axios/lib/helpers/fromDataURI.js
-node_modules/axios/lib/helpers/HttpStatusCode.js
-node_modules/axios/lib/helpers/isAbsoluteURL.js
-node_modules/axios/lib/helpers/isAxiosError.js
-node_modules/axios/lib/helpers/isURLSameOrigin.js
-node_modules/axios/lib/helpers/null.js
-node_modules/axios/lib/helpers/parseHeaders.js
-node_modules/axios/lib/helpers/parseProtocol.js
-node_modules/axios/lib/helpers/readBlob.js
-node_modules/axios/lib/helpers/README.md
-node_modules/axios/lib/helpers/speedometer.js
-node_modules/axios/lib/helpers/spread.js
-node_modules/axios/lib/helpers/throttle.js
-node_modules/axios/lib/helpers/toFormData.js
-node_modules/axios/lib/helpers/toURLEncodedForm.js
-node_modules/axios/lib/helpers/validator.js
-node_modules/axios/lib/helpers/ZlibHeaderTransformStream.js
-node_modules/axios/lib/platform/browser/classes/Blob.js
-node_modules/axios/lib/platform/browser/classes/FormData.js
-node_modules/axios/lib/platform/browser/classes/URLSearchParams.js
-node_modules/axios/lib/platform/browser/index.js
-node_modules/axios/lib/platform/common/utils.js
-node_modules/axios/lib/platform/index.js
-node_modules/axios/lib/platform/node/classes/FormData.js
-node_modules/axios/lib/platform/node/classes/URLSearchParams.js
-node_modules/axios/lib/platform/node/index.js
-node_modules/axios/lib/utils.js
-node_modules/axios/LICENSE
-node_modules/axios/MIGRATION_GUIDE.md
-node_modules/axios/README.md
-node_modules/axios/SECURITY.md
-node_modules/combined-stream/lib/combined_stream.js
-node_modules/combined-stream/License
-node_modules/combined-stream/Readme.md
-node_modules/combined-stream/yarn.lock
-node_modules/delayed-stream/.npmignore
-node_modules/delayed-stream/lib/delayed_stream.js
-node_modules/delayed-stream/License
-node_modules/delayed-stream/Makefile
-node_modules/delayed-stream/Readme.md
-node_modules/follow-redirects/debug.js
-node_modules/follow-redirects/http.js
-node_modules/follow-redirects/https.js
-node_modules/follow-redirects/index.js
-node_modules/follow-redirects/LICENSE
-node_modules/follow-redirects/README.md
-node_modules/form-data/index.d.ts
-node_modules/form-data/lib/browser.js
-node_modules/form-data/lib/form_data.js
-node_modules/form-data/lib/populate.js
-node_modules/form-data/License
-node_modules/form-data/Readme.md
-node_modules/form-data/README.md.bak
-node_modules/mime-db/db.json
-node_modules/mime-db/HISTORY.md
-node_modules/mime-db/index.js
-node_modules/mime-db/LICENSE
-node_modules/mime-db/README.md
-node_modules/mime-types/HISTORY.md
-node_modules/mime-types/index.js
-node_modules/mime-types/LICENSE
-node_modules/mime-types/README.md
-node_modules/proxy-from-env/.eslintrc
-node_modules/proxy-from-env/.travis.yml
-node_modules/proxy-from-env/index.js
-node_modules/proxy-from-env/LICENSE
-node_modules/proxy-from-env/README.md
-node_modules/proxy-from-env/test.js
+/node_modules
 som-diary/src/main/views/package.json
+
+# Created by https://www.toptal.com/developers/gitignore/api/java,node,visualstudiocode,intellij
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,node,visualstudiocode,intellij
+
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+# *.iml
+# *.ipr
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+.idea/replstate.xml
+
+# SonarLint plugin
+.idea/sonarlint/
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
+
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+
+# *.iml
+# modules.xml
+# .idea/misc.xml
+# *.ipr
+
+# Sonarlint plugin
+# https://plugins.jetbrains.com/plugin/7973-sonarlint
+.idea/**/sonarlint/
+
+# SonarQube Plugin
+# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
+.idea/**/sonarIssues.xml
+
+# Markdown Navigator plugin
+# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
+.idea/**/markdown-navigator.xml
+.idea/**/markdown-navigator-enh.xml
+.idea/**/markdown-navigator/
+
+# Cache file creation bug
+# See https://youtrack.jetbrains.com/issue/JBR-2257
+.idea/$CACHE_FILE$
+
+# CodeStream plugin
+# https://plugins.jetbrains.com/plugin/12206-codestream
+.idea/codestream.xml
+
+# Azure Toolkit for IntelliJ plugin
+# https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
+.idea/**/azureSettings.xml
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+
+### Node ###
+# Logs
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs generated by jscoverage/JSCover
+lib-cov
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Snowpack dependency directory (https://snowpack.dev/)
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# vuepress v2.x temp and cache directory
+.temp
+
+# Docusaurus cache and generated files
+.docusaurus
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+### Node Patch ###
+# Serverless Webpack directories
+.webpack/
+
+# Optional stylelint cache
+
+# SvelteKit build / generate output
+.svelte-kit
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/java,node,visualstudiocode,intellij
