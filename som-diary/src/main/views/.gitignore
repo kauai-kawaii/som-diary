@@ -26,3 +26,5 @@ src/main/resources/static/static/
 
 .env
 src/main/resources/config.properties/
+
+src/main/views/public/index.html
