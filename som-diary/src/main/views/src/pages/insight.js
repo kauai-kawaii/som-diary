@@ -1,5 +1,3 @@
-import YearPicker from "../components/GetDates/select-year";
-import MonthPicker from "../components/GetDates/select-month";
 import SpotifyHorizonSongList from "../components/SpotifyMusicDisplay/get-monthly-list";
 import NaverMapsStars from "../components/MapApiDisplay/NaverMapsStars";
 import GetMusicsByYearAndMonth from "../components/SpotifyMusicDisplay/fetch-spotify-songs";
