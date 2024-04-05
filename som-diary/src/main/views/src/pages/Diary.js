@@ -37,6 +37,8 @@ export default function Diary() {
         if (image) {
             setSelectedImage(image);
             console.log("전달받은이미지",image);
+            const d = atob(image)
+            console.log(d)
         } else{
             console.log("없어요 사진")
         }
