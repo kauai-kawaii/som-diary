@@ -1,6 +1,8 @@
 package com.example.somdiary.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +13,10 @@ import lombok.ToString;
 @ToString
 @Entity
 @Getter
-public class User {
+public class Track {
     @Id
-    @Column(name = "user_id", nullable = false, length=85)
-    private String Id;
+    private Long track_id;
 
-    @Column(name="user_name")
-    private String userName;
+    @Column
+    private String track_title;
 }
