@@ -27,10 +27,10 @@ public class UserCalendarController{
     public List<MainPhotoDto> getDiaries() {
 
 
-        User user = userRepository.findById("108921399018309814574").orElse(null);
-        System.out.println("User ID: " + user.getUserId());
+        User user = userRepository.findById("108921399018309814574");
+        System.out.println("User ID: " + user.getId());
         System.out.println("Username: " + user.getUserName());
-        System.out.println("Email: " + user.getUserEmail());
+//        System.out.println("Email: " + user.getUserEmail());
 
 
         List<Diary> diaries = diaryRepository.findByUserId(user);
@@ -38,11 +38,11 @@ public class UserCalendarController{
 
         for (Diary diary : diaries) {
             System.out.println("다이어리 id: " + diary.getDiaryId());
-            System.out.println("유저객체의 유저아이디: " + diary.getUserId().getUserId());
+            System.out.println("유저객체의 유저아이디: " + diary.getUser().getId());
             System.out.println("getDiaryPhoto(): " + diary.getDiaryPhoto());
             MainPhotoDto mainPhotoDto = new MainPhotoDto();
             mainPhotoDto.setDiaryId(diary.getDiaryId());
-            mainPhotoDto.setUserId(diary.getUserId().getUserId());
+            mainPhotoDto.setUserId(diary.getUser().getId());
             mainPhotoDto.setDiaryPhoto(diary.getDiaryPhoto());
 
             // LocalDate에서 연월일 분리
