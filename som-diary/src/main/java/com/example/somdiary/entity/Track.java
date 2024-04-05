@@ -17,12 +17,11 @@ import lombok.ToString;
 @Data
 public class Track {
     @Id
-    @Column
+    @Column(name = "track_id")
+    private Long trackId;
 
-    private Long track_id;
-
-    @Column
-    private String track_title;
+    @Column(name = "track_title")
+    private String trackTitle;
 
 }
 
