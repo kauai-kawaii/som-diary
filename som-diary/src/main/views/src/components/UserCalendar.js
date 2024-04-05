@@ -1,12 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import DailyModal from './DailyModal';
+import axios from "axios";
+const apiUrl = `/api/photos`
+
 
 function UserCalendar() {
     const [value, onChange] = useState(new Date());
     // 모달창 노출 여부 state
     const [modalOpen, setModalOpen] = useState(false);
+
+    // 이미지 데이터 state
+    const [photoData, setPhotoData] = useState([]);
+
+
+    useEffect(() => {
+        // 백엔드에서 이미지 데이터 가져오기
+        fetch(`/api/photos`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch photo data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                setPhotoData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching photo data:', error);
+            });
+    }, []); // 컴포넌트가 처음 렌더링될 때 한 번만 실행
 
     // 모달을 띄우는 함수 (추후 데이터 같이 전달 가능하도록)
     const showModal = (date) => {
@@ -14,11 +39,6 @@ function UserCalendar() {
         onChange(date);
     };
 
-    // 사진을 받아오는 경우
-    const photoData = [
-        { year: 2024, month: 1, day: 15, image: 'diary-img.jpeg' },
-        // ... 다른 날짜 데이터들
-    ];
 
     // 사진 데이터 달력에 띄우기
     const getTileContent = ({ date, view }) => {

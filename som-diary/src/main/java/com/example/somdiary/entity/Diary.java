@@ -1,6 +1,7 @@
 package com.example.somdiary.entity;
 
 import com.example.somdiary.dto.DiaryDto;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.Date;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +40,7 @@ public class Diary {
     @Column(name = "diary_date")
 //    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate diaryDate;
+
 
     // 기분
     @Column(name = "diary_feeling")
@@ -100,4 +103,5 @@ public class Diary {
         if(dto.getDiaryWriting() != null) this.diaryWriting = dto.getDiaryWriting();
         if(dto.getDiaryWeather() != null) this.diaryWeather = dto.getDiaryWeather();
     }
+
 }
