@@ -1,4 +1,4 @@
-package com.example.somdiary.controllers;
+package com.example.somdiary.controller;
 
 import com.example.somdiary.dto.DiaryDto;
 import com.example.somdiary.entity.Diary;
