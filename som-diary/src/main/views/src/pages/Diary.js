@@ -5,6 +5,7 @@ import ToolOptions from '../components/diary/Options'
 import { useState,useEffect } from 'react';
 import Music from '../components/diary/Music';
 import {Link, useNavigate , useLocation, useParams} from 'react-router-dom';
+import ImageUpload from "../components/diary/ImageUpload";
 
 export default function Diary() {
 
@@ -29,16 +30,25 @@ export default function Diary() {
         setWritingData(event.target.value);
     }
 
-    // const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [selectedWeather, setSelectedWeather] = useState(null);
+
+    const handleImageChange = (image) => {
+        if (image) {
+            setSelectedImage(image);
+            console.log("전달받은이미지",image);
+        } else{
+            console.log("없어요 사진")
+        }
+    }
     const handleEmojiClick = (emoji) => {
         setSelectedEmoji(emoji);
     };
     const handleVisitRateClick = (rate) => {
-        setSelectedRate(rate == "취소" ? "위치 별점주기" : rate);
+        setSelectedRate(rate === "취소" ? "위치 별점주기" : rate);
     };
     const handleWeatherChange = (weatherData) => {
-            setSelectedWeather(weatherData);
+        setSelectedWeather(weatherData);
     }
 
     // 음악 추천
@@ -51,14 +61,14 @@ export default function Diary() {
             event.preventDefault();
             const diaryData = {
                 userId: document.querySelector("#new-diary-user-id").value,
-                diaryPhoto: "사진없음",
+                diaryPhoto: selectedImage,
                 diaryDate: save_date,
                 diaryFeeling: selectedEmoji === '😊' ? '행복' : selectedEmoji === '😥' ? "슬픔" : selectedEmoji === '🤗' ? "신남" : selectedEmoji === '🤬' ? "화남" : selectedEmoji === "🥰" ? "하트" : selectedEmoji === '기분' ? null : selectedEmoji,
                 diaryLatitude: y,
                 diaryLongitude: x,
                 diaryVisitRate: selectedRate === "취소" || "위치 별점주기" ? null : selectedRate,
-                diaryTitle:  inputTitle,
-                diaryWriting: writingData,
+                diaryTitle:  document.querySelector('#title').value,
+                diaryWriting: document.querySelector('#content').value,
                 diaryWeather: selectedWeather === "null" ? null : selectedWeather.temperature
             };
             // if (diaryData.diaryTitle === null) {
@@ -163,7 +173,7 @@ export default function Diary() {
                                     />
                                 ))}
                             </div>
-                            {/*<ImageUpload onImageChange={handleImageChange}/>*/}
+                            <ImageUpload onImageChange={handleImageChange}/>
 
                             {/*위치업로드*/}
                             {locationInfo && (
@@ -184,7 +194,7 @@ export default function Diary() {
                                             style={{cursor: 'pointer'}}
                                         >
                                             <p className="text-center"
-                                               >위치 검색</p>
+                                            >위치 검색</p>
                                         </div>
                                     </div>
                                 </Link>

@@ -1,6 +1,6 @@
 import { PhotoIcon} from '@heroicons/react/24/solid'
 import { useState } from 'react';
-export default function ImageUpload(){
+export default function ImageUpload({ onImageChange }){
     const [selectedImage, setSelectedImage] = useState(null);
 
     const handleImageChange = (event) => {
@@ -10,6 +10,8 @@ export default function ImageUpload(){
             const reader = new FileReader();
             reader.onloadend = () => {
                 setSelectedImage(reader.result);
+                console.log('Selected Image:', reader.result);
+                onImageChange(reader.result);
             };
             reader.readAsDataURL(file);
         } else {
