@@ -4,6 +4,7 @@ import Start from "./pages/Start";
 import Main from "./pages/Main";
 import Diary from "./pages/Diary";
 import Location from "./pages/Location";
+import Insight from "./pages/insight";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Route path="/" exact element={<Home />} />
         <Route path="/get-start" exact element={<Start />} />
         <Route path="/main" exact element={<Main />} />
-
+        <Route path="/insight" element={<Insight />} />
         <Route path="/diary" element={<Diary />} />
         <Route path="/search-location" element={<Location />} />
       </Routes>
