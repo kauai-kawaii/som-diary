@@ -40,6 +40,9 @@ function DailyModal({ setModalOpen, userId, date }) {
 
     const editDiary = () => {
         // 편집 창 넘겨주기
+        if(diary && window.confirm("다이러리를 수정할까요?")){
+            navigate(`/edit/${diary.diaryDate}`, { state: { diary } });
+        }
         // 데이터 받아오는 것까지
     }
 
@@ -107,7 +110,7 @@ function DailyModal({ setModalOpen, userId, date }) {
                                     strokeWidth={1.5}
                                     stroke='currentColor'
                                     className='w-7 h-7 mr-2'
-                                    onClick={null}
+                                    onClick={editDiary}
                                 >
                                     <path
                                         strokeLinecap='round'
