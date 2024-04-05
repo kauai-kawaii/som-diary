@@ -27,7 +27,8 @@ public class DiaryService {
     public DiaryDto getDiaryByUserIdAndDiaryDate(String userId, LocalDate date) {
         List<Diary> diaries = diaryRepository.findByUserIdAndDiaryDate(userId, date);
         if (diaries.isEmpty()) {
-            throw new IllegalArgumentException("해당 사용자와 날짜에 대한 다이어리를 찾을 수 없습니다.");
+            return null;
+//            throw new IllegalArgumentException("해당 사용자와 날짜에 대한 다이어리를 찾을 수 없습니다.");
         }
         Diary diary = diaries.get(0);
         return DiaryDto.createdDiaryDto(diary);
@@ -59,5 +60,17 @@ public class DiaryService {
         target.patch(dto);
         Diary updated = diaryRepository.save(target);
         return DiaryDto.createdDiaryDto(updated);
+    }
+
+    public Diary delete(Long diaryId) {
+        // 대상 찾기
+        Diary target = diaryRepository.findById(diaryId).orElse(null);
+        // 잘못된 요청 처리하기
+        if (target == null){
+            return null;
+        }
+        // 대상 삭제하기
+        diaryRepository.delete(target);
+        return target; // DB에서 삭제한 대상을 컨트롤러에 반환
     }
 }
