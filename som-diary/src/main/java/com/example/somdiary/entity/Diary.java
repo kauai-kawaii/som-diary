@@ -1,5 +1,6 @@
 package com.example.somdiary.entity;
 
+
 import com.example.somdiary.dto.DiaryDto;
 
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class Diary {
     private User user;
 
     // 회원 - 음악 1:1
+
 //    @OneToOne
 //    @JoinColumn(name = "track_id_fk", referencedColumnName = "track_id")
 //    private Track track;
@@ -54,6 +56,7 @@ public class Diary {
     private String diaryLongitude;
 
     @Column(name="diary_visit_rate")
+
     private String diaryVisitRate;
 
     @Column(name = "diary_title", nullable = false)
@@ -66,18 +69,22 @@ public class Diary {
     private String diaryWeather;
 
     public static Diary createDiary(DiaryDto dto, User user) {
+
         if(dto.getDiaryId() != null)
+
             throw new IllegalArgumentException("다이어리 생성 실패, 다이어리 id가 없어야 합니다.");
 
         System.out.println("DiaryDto의 사용자 ID: " + dto.getUserId());
 
         if (dto.getUserId() == null || !dto.getUserId().equals(user.getId()))
             throw new IllegalArgumentException("다이어리 생성 실패, 사용자의 id가 잘못됐습니다.");
+
 //        엔티티 생성 및 반환
         return new Diary(
                 dto.getDiaryId(),
                 user,
 //                track,
+
                 dto.getDiaryPhoto(),
                 dto.getDiaryDate(),
                 dto.getDiaryFeeling(),
@@ -86,6 +93,7 @@ public class Diary {
                 dto.getDiaryVisitRate(),
                 dto.getDiaryTitle(),
                 dto.getDiaryWriting(),
+
                 dto.getDiaryWeather()
         );
     }
@@ -105,3 +113,4 @@ public class Diary {
     }
 
 }
+

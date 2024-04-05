@@ -5,7 +5,6 @@ export default function SpotifyHorizonSongList() {
     <>
       <div>
         <ul
-          role="list"
           className="flex divide-x divide-gray-100 space-x-2 h-80 overflow-x-scroll max-w-xl"
         >
           {people.map((person) => (

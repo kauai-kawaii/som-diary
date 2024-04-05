@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ToolOptions from "../get-tool-tips"; // Import ToolOptions component
+import ToolOptions from "../../get-tool-tips"; // Import ToolOptions component
 
 // Define months by every four months
 const firstFourMonths = [" 1 ", "2", "3", "4"];
