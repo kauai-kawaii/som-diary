@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.somdiary.Models.DiaryModel;
 import com.example.somdiary.repository.DiaryModelRepository;
 
 @Service
@@ -24,17 +23,19 @@ public class GetSongsFromDiaryImpl implements GetSongsFromDiary {
         // Getting the last day of the month for the diary within such month and year
         LocalDate lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth());
 
-        // Fetch the songs from the database, filtered by the month and year
-        List<DiaryModel> listOfDiary = diaryModelRepository.findByDiaryDateBetween(firstDayOfMonth,
-                lastDayOfMonth);
+        // // Fetch the songs from the database, filtered by the month and year
+        // List<DiaryModel> listOfDiary =
+        // diaryModelRepository.findByDiaryDateBetween(firstDayOfMonth,
+        // lastDayOfMonth);
 
-        // For Return the list of songs TrackID in Spotify
+        // // For Return the list of songs TrackID in Spotify
+        // List<String> listOfSongs = new ArrayList<String>();
+        // // parse trackID for Spotify getTrack API
+        // for (DiaryModel diary : listOfDiary) {
+        // listOfSongs.add(diary.getTrackIdFk().toString());
+        // }
         List<String> listOfSongs = new ArrayList<String>();
-        // parse trackID for Spotify getTrack API
-        for (DiaryModel diary : listOfDiary) {
-            listOfSongs.add(diary.getTrackIdFk().toString());
-        }
-
+        listOfSongs.add("Empty");
         return listOfSongs;
     }
 
