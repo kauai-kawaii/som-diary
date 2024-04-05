@@ -5,9 +5,11 @@ import ToolOptions from '../components/diary/Options'
 import { useState,useEffect } from 'react';
 import Music from '../components/diary/Music';
 import {Link, useNavigate , useLocation, useParams} from 'react-router-dom';
-import ImageUpload from "../components/diary/ImageUpload";
 
-export default function Diary() {
+export default function EditDiary() {
+    const location = useLocation();
+    const { diary } = location.state || {};
+
 
     const {save_date} = useParams();
     const navigate = useNavigate();
@@ -30,24 +32,13 @@ export default function Diary() {
         setWritingData(event.target.value);
     }
 
-    const [selectedImage, setSelectedImage] = useState(null);
+    // const [selectedImage, setSelectedImage] = useState(null);
     const [selectedWeather, setSelectedWeather] = useState(null);
-
-    const handleImageChange = (image) => {
-        if (image) {
-            setSelectedImage(image);
-            console.log("전달받은이미지",image);
-            const d = atob(image)
-            console.log(d)
-        } else{
-            console.log("없어요 사진")
-        }
-    }
     const handleEmojiClick = (emoji) => {
         setSelectedEmoji(emoji);
     };
     const handleVisitRateClick = (rate) => {
-        setSelectedRate(rate === "취소" ? "위치 별점주기" : rate);
+        setSelectedRate(rate == "취소" ? "위치 별점주기" : rate);
     };
     const handleWeatherChange = (weatherData) => {
         setSelectedWeather(weatherData);
@@ -56,59 +47,59 @@ export default function Diary() {
     // 음악 추천
 
     useEffect(() => {
-        const inputTitle =  document.querySelector('#title').value
-        const inputWriting = document.querySelector('#content').value
-        const handleButtonClick = (event) => {
-            // const titleValue = inputTitle.trim();
-            event.preventDefault();
-            const diaryData = {
-                userId: document.querySelector("#new-diary-user-id").value,
-                diaryPhoto: selectedImage,
-                diaryDate: save_date,
-                diaryFeeling: selectedEmoji === '😊' ? '행복' : selectedEmoji === '😥' ? "슬픔" : selectedEmoji === '🤗' ? "신남" : selectedEmoji === '🤬' ? "화남" : selectedEmoji === "🥰" ? "하트" : selectedEmoji === '기분' ? null : selectedEmoji,
-                diaryLatitude: y,
-                diaryLongitude: x,
-                diaryVisitRate: selectedRate === "취소" || "위치 별점주기" ? null : selectedRate,
-                diaryTitle:  document.querySelector('#title').value,
-                diaryWriting: document.querySelector('#content').value,
-                diaryWeather: selectedWeather === "null" ? null : selectedWeather.temperature
-            };
-            // if (diaryData.diaryTitle === null) {
-            //     alert("다이어리 제목을 입력하세요.");
-            //     return;
-            // }
-            //
-            // if (diaryData.diaryWriting === null) {
-            //     alert("다이어리 내용을 입력하세요.");
-            //     return;
-            // }
-            console.log(diaryData);
-            const url = "/api/user/" + diaryData.userId + "/diary";
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(diaryData)
-            }).then(response => {
-                const msg = (response.ok) ? "다이어리가 등록됐습니다!" : "다이어리 등록 실패";
-                alert(msg);
+        console.log("수정버튼 클릭 후 넘어온 데이터 확인",diary);
+        // const inputTitle =  document.querySelector('#title').value
+        // const inputWriting = document.querySelector('#content').value
+        // const handleButtonClick = (event) => {
+        //     // const titleValue = inputTitle.trim();
+        //     event.preventDefault();
+        //     const diaryData = {
+        //         userId: document.querySelector("#new-diary-user-id").value,
+        //         diaryPhoto: "사진없음",
+        //         diaryDate: save_date,
+        //         diaryFeeling: selectedEmoji === '😊' ? '행복' : selectedEmoji === '😥' ? "슬픔" : selectedEmoji === '🤗' ? "신남" : selectedEmoji === '🤬' ? "화남" : selectedEmoji === "🥰" ? "하트" : selectedEmoji === '기분' ? null : selectedEmoji,
+        //         diaryLatitude: y,
+        //         diaryLongitude: x,
+        //         diaryVisitRate: selectedRate === "취소" || "위치 별점주기" ? null : selectedRate,
+        //         diaryTitle:  document.querySelector('#title').value,
+        //         diaryWriting: document.querySelector('#content').value,
+        //         diaryWeather: selectedWeather === "null" ? null : selectedWeather.temperature
+        //     };
+        //     // if (diaryData.diaryTitle === null) {
+        //     //     alert("다이어리 제목을 입력하세요.");
+        //     //     return;
+        //     // }
+        //     //
+        //     // if (diaryData.diaryWriting === null) {
+        //     //     alert("다이어리 내용을 입력하세요.");
+        //     //     return;
+        //     // }
+        //     console.log(diaryData);
+        //     const url = "/api/user/" + diaryData.userId + "/diary";
+        //     fetch(url, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify(diaryData)
+        //     }).then(response => {
+        //         const msg = (response.ok) ? "다이어리가 등록됐습니다!" : "다이어리 등록 실패";
+        //         alert(msg);
+        //
+        //         navigate("/main")
 
-                navigate("/main")
-            });
-        };
 
-        const diaryCreateBtn = document.querySelector('#saveButton');
-        if (diaryCreateBtn) {
-            diaryCreateBtn.addEventListener("click", handleButtonClick);
-        }
-
-        return () => {
-            if (diaryCreateBtn) {
-                diaryCreateBtn.removeEventListener("click", handleButtonClick);
-            }
-        };
-    }, [selectedRate, selectedEmoji, locationInfo, selectedWeather]);
+        // const diaryCreateBtn = document.querySelector('#saveButton');
+        // if (diaryCreateBtn) {
+        //     diaryCreateBtn.addEventListener("click", handleButtonClick);
+        // }
+        //
+        // return () => {
+        //     if (diaryCreateBtn) {
+        //         diaryCreateBtn.removeEventListener("click", handleButtonClick);
+        //     }
+        // };
+    }, []);
 
 
     return (
@@ -175,7 +166,7 @@ export default function Diary() {
                                     />
                                 ))}
                             </div>
-                            <ImageUpload onImageChange={handleImageChange}/>
+                            {/*<ImageUpload onImageChange={handleImageChange}/>*/}
 
                             {/*위치업로드*/}
                             {locationInfo && (

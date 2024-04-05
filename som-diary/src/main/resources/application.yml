@@ -15,4 +15,15 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        format-sql: true
+
+        format_sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${oauth2.google.client-id}
+            client-secret: ${oauth2.google.client-secret}
+            scope:
+              - profile

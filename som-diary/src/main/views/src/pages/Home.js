@@ -15,7 +15,7 @@ function Home() {
 
                     <div className='text-center'>
                         <h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl'>
-                            세상에 하나뿐인 <br></br> 일상기록 어쩌고 저쩌고
+                            세상에 하나뿐인 <br></br> 일상기록
                         </h1>
                         <p className='mt-6 text-lg leading-8 text-gray-600'>
                             알솜달솜과 함께 솜사탕을 채워나가요!

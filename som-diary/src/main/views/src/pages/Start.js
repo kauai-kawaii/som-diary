@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import GoogleLogin from '../components/login/GoogleLogin';
 
 function Start() {
     return (
@@ -22,16 +23,7 @@ function Start() {
                         </p>
                     </div>
                     <div className='my-8 flex justify-center'>
-                        <Link
-                            to={`/main`}
-                        >
-                            <img
-                                src={'sign-in-with-google.png'}
-                                alt={'sign-in'}
-                                className={'max-w-40 sm:max-w-52 hover:opacity-75'}
-                            />
-                        </Link>
-
+                        <GoogleLogin />
                     </div>
                 </div>
             </div>
