@@ -1,5 +1,4 @@
 import SpotifyHorizonSongList from "../components/SpotifyMusicDisplay/get-monthly-list";
-import NaverMapsStars from "../components/MapApiDisplay/NaverMapsStars";
 import GetMusicsByYearAndMonth from "../components/SpotifyMusicDisplay/fetch-spotify-songs";
 import { Link } from "react-router-dom";
 
@@ -20,7 +19,6 @@ export default function Insight() {
           <p>여기에는 스포티파이 노래</p>
           <SpotifyHorizonSongList />
           <h2 className="text-xl ml-4 mt-4">지도 API 출동 예정</h2>
-          <NaverMapsStars />
         </main>
       </div>
     </>
