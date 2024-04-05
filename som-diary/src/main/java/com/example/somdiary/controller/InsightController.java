@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.somdiary.repository.DiaryModelRepository;
 import com.example.somdiary.repository.DiaryRepository;
 import com.example.somdiary.service.GetSongsFromDiary;
 
@@ -40,19 +39,21 @@ public class InsightController {
     // return
     // }
 
-    @GetMapping("/tracks/{userId}")
-    public @ResponseBody String tracksOfSpecificUser(@RequestParam(name = "selectedMonth") String selectedMonth,
-            @RequestParam(name = "selectedYear") String selectedYear) {
+    // @GetMapping("/tracks/{userId}")
+    // public @ResponseBody String tracksOfSpecificUser(@RequestParam(name =
+    // "selectedMonth") String selectedMonth,
+    // @RequestParam(name = "selectedYear") String selectedYear) {
 
-        // Getting the first day of the month for the diary within such month and year
-        // By using @Service getSongsFromDiaryImpl
+    // // Getting the first day of the month for the diary within such month and
+    // year
+    // // By using @Service getSongsFromDiaryImpl
 
-        DiaryRepository diaryRepository = new DiaryRepository();
+    // DiaryRepository diaryRepository = new DiaryRepository();
 
-        List <Diary> diaryList = new ArrayList<Diary>();
-        diaryList = getSongsFromDiary.fromMonthAndYear(selectedMonth, selectedYear);
-        // return getSongsFromDiary.fromMonthAndYear(month, year);
-        return selectedYear + "-" + selectedMonth;
-    }
+    // List <Diary> diaryList = new ArrayList<Diary>();
+    // diaryList = getSongsFromDiary.fromMonthAndYear(selectedMonth, selectedYear);
+    // // return getSongsFromDiary.fromMonthAndYear(month, year);
+    // return selectedYear + "-" + selectedMonth;
+    // }
 
 }

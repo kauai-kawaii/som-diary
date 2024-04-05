@@ -7,13 +7,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.somdiary.repository.DiaryModelRepository;
+import com.example.somdiary.repository.DiaryRepository;
 
 @Service
 public class GetSongsFromDiaryImpl implements GetSongsFromDiary {
 
     @Autowired
-    private DiaryModelRepository diaryModelRepository;
+    private DiaryRepository diaryModelRepository;
 
     @Override
     public List<String> fromMonthAndYear(String month, String year) {
