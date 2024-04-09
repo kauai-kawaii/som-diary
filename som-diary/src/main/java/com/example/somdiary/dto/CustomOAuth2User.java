@@ -42,11 +42,11 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public String getName() {
         // 사용자 별명
-        return userDTO.getName();
+        return userDTO.getUsername();
     }
 
-    public String getUsername() {
-        // 구분자가 될 느낌?
-        return userDTO.getUsername();
+    public String getId() {
+        // getAttributes 대신 구분자 return
+        return userDTO.getId();
     }
 }

@@ -6,6 +6,7 @@ import com.example.somdiary.dto.OAuth2Response;
 import com.example.somdiary.dto.UserDTO;
 import com.example.somdiary.entity.User;
 import com.example.somdiary.repository.UserRepository;
+import java.util.Optional;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -44,37 +45,36 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // dto 받아온 것들을 데이터 뽑아서 처리 (아래)
 
         String userId = oAuth2Response.getProviderId();
-        User existData = userRepository.findByUserName(userId);
-
+        Optional<User> existDataOptional = userRepository.findById(userId);
         String role = "ROLE_USER";
 
-        if (existData == null) {
-
-            User userEntity = new User();
-            userEntity.setId(userId);
-//            userEntity.setUserEmail(oAuth2Response.getEmail());
-            userEntity.setUserName(oAuth2Response.getName());
-//            userEntity.setRole("ROLE_USER");
-
-            userRepository.save(userEntity);
-
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUsername(userId);
-            userDTO.setName(oAuth2Response.getName());
-            userDTO.setRole("ROLE_USER");
-
-            return new CustomOAuth2User(userDTO);
-        } else {
-
-//            existData.setUserEmail(oAuth2Response.getEmail());
+        if (existDataOptional.isPresent()) {
+            User existData = existDataOptional.get();
+            // User가 존재할 때의 로직
             existData.setUserName(oAuth2Response.getName());
 
             userRepository.save(existData);
 
             UserDTO userDTO = new UserDTO();
-            userDTO.setUsername(existData.getId());
-            userDTO.setName(oAuth2Response.getName());
-//            userDTO.setRole(existData.getRole());
+            userDTO.setId(existData.getId());
+            userDTO.setUsername(oAuth2Response.getName());
+            userDTO.setRole(existData.getRole());
+
+            return new CustomOAuth2User(userDTO);
+
+        } else {
+            // User가 존재하지 않을 때의 로직
+            User userEntity = new User();
+            userEntity.setId(userId);
+            userEntity.setUserName(oAuth2Response.getName());
+            userEntity.setRole(role);
+
+            userRepository.save(userEntity);
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(userId);
+            userDTO.setUsername(oAuth2Response.getName());
+            userDTO.setRole(role);
 
             return new CustomOAuth2User(userDTO);
         }
