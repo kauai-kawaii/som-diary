@@ -33,7 +33,7 @@ public class UserCalendarController{
 //        System.out.println("Email: " + user.getUserEmail());
 
 
-        List<Diary> diaries = diaryRepository.findByUserId(user);
+        List<Diary> diaries = diaryRepository.findByUser(user);
         List<MainPhotoDto> mainPhotoDtos = new ArrayList<>();
 
         for (Diary diary : diaries) {

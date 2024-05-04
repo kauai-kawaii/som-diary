@@ -1,6 +1,7 @@
 package com.example.somdiary.controller;
 
 import com.example.somdiary.dto.DiaryDto;
+import com.example.somdiary.entity.User;
 import com.example.somdiary.service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.hibernate.mapping.List;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api/insight")
 // @RequestMapping("/api")
 public class InsightController {
@@ -35,7 +35,9 @@ public class InsightController {
     private InsightService insightService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Diary>> getDiariesByUserId(@RequestParam String userId) {
+//    public String getDiariesByUserId(@PathVariable String userId) {
+    public ResponseEntity<List<Diary>> getDiariesByUserId(@PathVariable String userId) {
+
 
         List<Diary> diaries = insightService.getDiaryByUserId(userId);
         if (diaries.isEmpty()) {
@@ -43,6 +45,8 @@ public class InsightController {
         }
         return ResponseEntity.ok(diaries);
 
+
+//
     }
 
 }

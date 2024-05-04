@@ -18,24 +18,22 @@ import com.example.somdiary.repository.UserRepository;
 @Service
 public class InsightService {
 
-    @Autowired
-    // To get diary and user data by repositories
-    DiaryRepository diaryRepository;
-    UserRepository userRepository;
+    private final DiaryRepository diaryRepository;
+    private final UserRepository userRepository;
 
-    // Load all diaries by specific user
+    @Autowired
+    public InsightService(DiaryRepository diaryRepository, UserRepository userRepository) {
+        this.diaryRepository = diaryRepository;
+        this.userRepository = userRepository;
+    }
+
     public List<Diary> getDiaryByUserId(String userId) {
 
-        User user = userRepository.findById(userId).orElse(null);
-
-        // When the exception is thrown
-        if (user == null) {
-            log.error("User not found");
-            return null;
-        }
-
-        log.info("Getting diary by user id: {}", userId);
-        return diaryRepository.findByUserId(user);
+        // Get the user by userId
+        User user = userRepository.findById("123").orElse(null);
+        List<Diary> diariesOfUser = diaryRepository.findByUserId(user.getId());
+        // Get the diaries by user
+        return diariesOfUser;
     }
 
 }
