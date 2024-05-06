@@ -41,6 +41,7 @@ configurations {
 
 repositories {
     mavenCentral()
+//    maven { url "https://repo.mysql.com/" }
 }
 
 dependencies {
@@ -49,6 +50,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.springframework.boot:spring-boot-devtools'
+//    implementation files('libs/mysql-connector-java-8.3.0.jar')
+//    implementation 'mysql:mysql-connector-java:8.3.0'
+//    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
