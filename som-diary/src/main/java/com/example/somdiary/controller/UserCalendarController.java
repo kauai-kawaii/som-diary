@@ -27,13 +27,13 @@ public class UserCalendarController{
     public List<MainPhotoDto> getDiaries() {
 
 
-        User user = userRepository.findById("108921399018309814574").orElse(null);
+        User user = userRepository.findById("123").orElse(null);
         System.out.println("User ID: " + user.getId());
         System.out.println("Username: " + user.getUserName());
 //        System.out.println("Email: " + user.getUserEmail());
 
 
-        List<Diary> diaries = diaryRepository.findByUserId(user);
+        List<Diary> diaries = diaryRepository.findByUser(user);
         List<MainPhotoDto> mainPhotoDtos = new ArrayList<>();
 
         for (Diary diary : diaries) {
