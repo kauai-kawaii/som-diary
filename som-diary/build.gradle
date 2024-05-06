@@ -69,15 +69,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-def reactDir = "$projectDir/src/main/views";
-
-sourceSets {
-    main {
-        resources {
-            srcDirs = ["$projectDir/src/main/resources"]
-        }
-    }
-}
-
-

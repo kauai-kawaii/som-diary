@@ -4,6 +4,9 @@ import com.example.somdiary.jwt.JWTFilter;
 import com.example.somdiary.jwt.JWTUtil;
 import com.example.somdiary.oauth2.CustomSuccessHandler;
 import com.example.somdiary.service.CustomOAuth2UserService;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Slf4j
 @Configuration
@@ -39,6 +44,29 @@ public class SecurityConfig {
     // SecurityFilterChain 인터페이스 리턴 메서드 (인자로 HttpSecurity 객체인자 받게됨)
     SecurityFilterChain web(HttpSecurity http) throws Exception {
         log.info("시큐리티 설정");
+
+                http
+                .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                        CorsConfiguration configuration = new CorsConfiguration();
+
+                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        configuration.setAllowedMethods(Collections.singletonList("*"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(Collections.singletonList("*"));
+                        configuration.setMaxAge(3600L);
+
+                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+                        return configuration;
+                    }
+                }));
+
+
         http
                 .csrf((auth) -> auth.disable()); // 개발 단계 잠시 종료
 
@@ -48,22 +76,23 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
-//        http
-//                .addFilterBefore(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
-
-
-//        http
-//                .authorizeHttpRequests((authorize) -> authorize
-//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-//                        .requestMatchers("/main/**", "/diary/**", "/search-location").authenticated()
-//                        .anyRequest().permitAll());
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
 
         http
                 .oauth2Login((oauth2) -> oauth2
-                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService))
-//                        .successHandler(customSuccessHandler)
+                                .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                                        .userService(customOAuth2UserService))
+                        .successHandler(customSuccessHandler)
                 );
+
+        http
+                .authorizeHttpRequests((authorize) -> authorize
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers("/","/error", "/test").permitAll()
+                        .anyRequest().authenticated());
+
+
 
         http
                 .sessionManagement((session) -> session
