@@ -29,12 +29,6 @@ public class Diary {
     @JoinColumn(name = "user_id_fk")
     private User user;
 
-    // 회원 - 음악 1:1
-
-//    @OneToOne
-//    @JoinColumn(name = "track_id_fk", referencedColumnName = "track_id")
-//    private Track track;
-
     @Column(name = "diary_photo")
     private String diaryPhoto;
 
@@ -68,6 +62,12 @@ public class Diary {
     @Column(name = "diary_weather")
     private String diaryWeather;
 
+    @Column(name = "diary_address")
+    private String diaryAddress;
+
+    @Column(name = "diary_address_name")
+    private String diaryAddressName;
+
     public static Diary createDiary(DiaryDto dto, User user) {
 
         if(dto.getDiaryId() != null)
@@ -83,8 +83,6 @@ public class Diary {
         return new Diary(
                 dto.getDiaryId(),
                 user,
-//                track,
-
                 dto.getDiaryPhoto(),
                 dto.getDiaryDate(),
                 dto.getDiaryFeeling(),
@@ -93,13 +91,15 @@ public class Diary {
                 dto.getDiaryVisitRate(),
                 dto.getDiaryTitle(),
                 dto.getDiaryWriting(),
-
-                dto.getDiaryWeather()
+                dto.getDiaryWeather(),
+                dto.getDiaryAddress(),
+                dto.getDiaryAddressName()
         );
     }
-
+//dto.getDiaryId()
     public void patch(DiaryDto dto) {
-        if (this.diaryId != dto.getDiaryId()) throw new IllegalArgumentException("다이어리 수정 실패! 잘못된 id가 입력되었습니다.");
+//        if (!this.diaryId.equals(dto.getDiaryId()))
+//            throw new IllegalArgumentException("다이어리 수정 실패! 잘못된 id가 입력되었습니다.");
         // 객체 갱신
         if(dto.getDiaryPhoto() != null) this.diaryPhoto = dto.getDiaryPhoto();
         if(dto.getDiaryDate() != null) this.diaryDate = dto.getDiaryDate();

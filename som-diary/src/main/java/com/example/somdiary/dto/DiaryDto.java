@@ -16,7 +16,6 @@ import java.util.Date;
 public class DiaryDto {
     private Long diaryId;
     private String userId;
-//    private Long trackId;
     private String diaryPhoto;
     private LocalDate diaryDate;
     private String diaryFeeling;
@@ -26,12 +25,13 @@ public class DiaryDto {
     private String diaryTitle;
     private String diaryWriting;
     private String diaryWeather;
+    private String diaryAddress;
+    private String diaryAddressName;
 
     public static DiaryDto createdDiaryDto(Diary diary) {
         return new DiaryDto(
                 diary.getDiaryId(),
                 diary.getUser().getId(),
-//                diary.getTrack().getTrack_id(),
                 diary.getDiaryPhoto(),
                 diary.getDiaryDate(),
                 diary.getDiaryFeeling(),
@@ -40,10 +40,12 @@ public class DiaryDto {
                 diary.getDiaryVisitRate(),
                 diary.getDiaryTitle(),
                 diary.getDiaryWriting(),
-                diary.getDiaryWeather()
+                diary.getDiaryWeather(),
+                diary.getDiaryAddress(),
+                diary.getDiaryAddressName()
         );
     }
     public DiaryDto toEntity() {
-        return new DiaryDto(diaryId, userId, diaryPhoto,diaryDate, diaryFeeling, diaryLatitude, diaryLongitude, diaryVisitRate, diaryTitle, diaryWriting, diaryWeather);
+        return new DiaryDto(diaryId, userId, diaryPhoto,diaryDate, diaryFeeling, diaryLatitude, diaryLongitude, diaryVisitRate, diaryTitle, diaryWriting, diaryWeather, diaryAddress, diaryAddressName);
     }
 }

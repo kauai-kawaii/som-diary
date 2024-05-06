@@ -305,4 +305,7 @@ dist
 .history
 .ionide
 
+# keypair
+**.pem
+
 # End of https://www.toptal.com/developers/gitignore/api/java,node,visualstudiocode,intellij

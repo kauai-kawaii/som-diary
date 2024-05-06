@@ -5,6 +5,7 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     password: ${SPRING_DATASOURCE_PASSWORD}
     username: ${SPRING_DATASOURCE_USERNAME}
+
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect

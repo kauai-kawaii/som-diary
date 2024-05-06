@@ -35,7 +35,6 @@ public class UserCalendarController{
 
         // 사용자 ID를 이용하여 해당 사용자의 정보 조회
         User user = userRepository.findById(userId).orElse(null);
-
         List<Diary> diaries = diaryRepository.findByUser(user);
         List<MainPhotoDto> mainPhotoDtos = new ArrayList<>();
 
