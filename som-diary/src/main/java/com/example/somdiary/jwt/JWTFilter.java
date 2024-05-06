@@ -2,6 +2,7 @@ package com.example.somdiary.jwt;
 
 import com.example.somdiary.dto.CustomOAuth2User;
 import com.example.somdiary.dto.UserDTO;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -28,35 +29,17 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String requestUri = request.getRequestURI();
 
-        if (requestUri.matches("^\\/home(?:\\/.*)?$")) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@ 이거 걸렸나???");
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (requestUri.matches("^.*\\.jpeg$")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (requestUri.matches("^\\/static(?:\\/.*)?$")) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@ 이거 걸렸나???");
-            filterChain.doFilter(request, response);
-            return;
-        }
-        if (requestUri.matches("^\\/get-start(?:\\/.*)?$")) {
+        if (requestUri.matches("^\\/login(?:\\/.*)?$")) {
 
             filterChain.doFilter(request, response);
             return;
         }
-
         if (requestUri.matches("^\\/oauth2(?:\\/.*)?$")) {
 
             filterChain.doFilter(request, response);
             return;
         }
 
-        System.out.println("@@@@@@@@@@@@@@@@############ 안걸림///");
         //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
         String authorization = null;
         Cookie[] cookies = request.getCookies();
@@ -78,37 +61,59 @@ public class JWTFilter extends OncePerRequestFilter {
             //조건이 해당되면 메소드 종료
             return;
         }
+//
+//        //토큰
+//        String token = authorization;
+//
+//        //토큰 소멸 시간 검증
+//        if (jwtUtil.isExpired(token)) {
+//
+//            System.out.println("token expired");
+//            filterChain.doFilter(request, response);
+//
+//            //조건이 해당되면 메소드 종료
+//            return;
+//        }
 
-        //토큰
-        String token = authorization;
+        // 토큰 검증
+        try {
+            String token = authorization;
+            if (jwtUtil.isExpired(token)) {
+                // 토큰 만료 처리
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token expired. Please login again."); // 클라이언트에게 메시지 전송
+                response.sendRedirect("http://localhost:8081/oauth2/authorization/google"); // 로그인 페이지로 리디렉션
+                return;
+            }
 
-        //토큰 소멸 시간 검증
-        if (jwtUtil.isExpired(token)) {
+            // 토큰에서 userId와 role 추출
+            String userId = jwtUtil.getUserId(token);
+            String role = jwtUtil.getRole(token);
 
-            System.out.println("token expired");
+            // UserDTO 생성하여 값 설정
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(userId);
+            userDTO.setRole(role);
+
+            System.out.println("JWT필터에서 디티오 값 저장 단계");
+            System.out.println(userId);
+            System.out.println(role);
+
+            // UserDetails에 회원 정보 객체 담기
+            CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
+
+            // 스프링 시큐리티 인증 토큰 생성
+            Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+
+            // 세션에 사용자 등록
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
             filterChain.doFilter(request, response);
-
-            //조건이 해당되면 메소드 종료
-            return;
+        } catch (ExpiredJwtException ex) {
+            // 토큰이 만료된 경우의 처리
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token expired. Please login again."); // 클라이언트에게 메시지 전송
+            response.sendRedirect("http://localhost:8081/oauth2/authorization/google"); // 로그인 페이지로 리디렉션
         }
-
-        //토큰에서 username과 role 획득
-        String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
-
-        //userDTO를 생성하여 값 set
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(username);
-        userDTO.setRole(role);
-
-        //UserDetails에 회원 정보 객체 담기
-        CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
-
-        //스프링 시큐리티 인증 토큰 생성
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
-        //세션에 사용자 등록
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-
-        filterChain.doFilter(request, response);
     }
 }

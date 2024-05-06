@@ -1,5 +1,6 @@
 package com.example.somdiary.controller;
 
+import com.example.somdiary.dto.CustomOAuth2User;
 import com.example.somdiary.dto.MainPhotoDto;
 import com.example.somdiary.entity.Diary;
 import com.example.somdiary.entity.User;
@@ -7,10 +8,10 @@ import com.example.somdiary.repository.DiaryRepository;
 import com.example.somdiary.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserCalendarController{
@@ -23,23 +24,22 @@ public class UserCalendarController{
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/api/photos")
-    public List<MainPhotoDto> getDiaries() {
+    @GetMapping("/photos")
+    @ResponseBody
+    public List<MainPhotoDto> getPhotos(Authentication authentication) {
+        // 현재 로그인한 사용자의 정보 가져오기
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        String userId = customOAuth2User.getId();
+        System.out.println("아래가 유저 아이디라고?");
+        System.out.println(userId);
 
+        // 사용자 ID를 이용하여 해당 사용자의 정보 조회
+        User user = userRepository.findById(userId).orElse(null);
 
-        User user = userRepository.findById("108921399018309814574").orElse(null);
-        System.out.println("User ID: " + user.getId());
-        System.out.println("Username: " + user.getUserName());
-//        System.out.println("Email: " + user.getUserEmail());
-
-
-        List<Diary> diaries = diaryRepository.findByUserId(user);
+        List<Diary> diaries = diaryRepository.findByUser(user);
         List<MainPhotoDto> mainPhotoDtos = new ArrayList<>();
 
         for (Diary diary : diaries) {
-            System.out.println("다이어리 id: " + diary.getDiaryId());
-            System.out.println("유저객체의 유저아이디: " + diary.getUser().getId());
-            System.out.println("getDiaryPhoto(): " + diary.getDiaryPhoto());
             MainPhotoDto mainPhotoDto = new MainPhotoDto();
             mainPhotoDto.setDiaryId(diary.getDiaryId());
             mainPhotoDto.setUserId(diary.getUser().getId());
@@ -52,7 +52,6 @@ public class UserCalendarController{
 
             mainPhotoDtos.add(mainPhotoDto);
         }
-        System.out.println("mainPhotoDtos" + mainPhotoDtos.toString());
 
         return mainPhotoDtos;
     }
