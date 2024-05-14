@@ -95,10 +95,6 @@ public class JWTFilter extends OncePerRequestFilter {
             userDTO.setId(userId);
             userDTO.setRole(role);
 
-            System.out.println("JWT필터에서 디티오 값 저장 단계");
-            System.out.println(userId);
-            System.out.println(role);
-
             // UserDetails에 회원 정보 객체 담기
             CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
 

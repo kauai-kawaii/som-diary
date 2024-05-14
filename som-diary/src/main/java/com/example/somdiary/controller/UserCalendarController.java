@@ -30,8 +30,6 @@ public class UserCalendarController{
         // 현재 로그인한 사용자의 정보 가져오기
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         String userId = customOAuth2User.getId();
-        System.out.println("아래가 유저 아이디라고?");
-        System.out.println(userId);
 
         // 사용자 ID를 이용하여 해당 사용자의 정보 조회
         User user = userRepository.findById(userId).orElse(null);
