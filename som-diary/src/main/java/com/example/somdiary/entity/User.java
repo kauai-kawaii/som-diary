@@ -16,10 +16,10 @@ import lombok.ToString;
 @Setter
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false, length=85)
+    @Column(name = "user_id", nullable = false, length = 85)
     private String id;
 
-    @Column(name="user_name")
+    @Column(name = "user_name")
     private String userName;
 
     private String role;

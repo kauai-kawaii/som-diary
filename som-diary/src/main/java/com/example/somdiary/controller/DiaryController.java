@@ -3,16 +3,21 @@ package com.example.somdiary.controller;
 import com.example.somdiary.dto.CustomOAuth2User;
 import com.example.somdiary.dto.DiaryDto;
 import com.example.somdiary.entity.Diary;
+import com.example.somdiary.repository.DiaryRepository;
 import com.example.somdiary.service.DiaryService;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -30,6 +35,7 @@ public class DiaryController {
         DiaryDto diary = diaryService.getDiaryByUserIdAndDiaryDate(userId, parsedDate);
         return ResponseEntity.ok(diary);
     }
+
 
     @GetMapping("/edit/{diary_date}")
     public ResponseEntity<DiaryDto> getEditDiariesByUserIdAndDate(Authentication authentication, @PathVariable String diary_date) {
