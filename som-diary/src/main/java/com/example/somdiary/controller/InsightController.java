@@ -1,5 +1,6 @@
 package com.example.somdiary.controller;
 
+import com.example.somdiary.dto.CustomOAuth2User;
 import com.example.somdiary.dto.DiaryDto;
 import com.example.somdiary.entity.User;
 import com.example.somdiary.service.DiaryService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import org.hibernate.mapping.List;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.somdiary.repository.DiaryRepository;
@@ -34,10 +36,10 @@ public class InsightController {
     @Autowired
     private InsightService insightService;
 
-    @GetMapping("/{userId}")
-//    public String getDiariesByUserId(@PathVariable String userId) {
-    public ResponseEntity<List<Diary>> getDiariesByUserId(@PathVariable String userId) {
-
+    @GetMapping("")
+    public ResponseEntity<List<Diary>> getDiariesByUserId(Authentication authentication) {
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        String userId = customOAuth2User.getId();
 
         List<Diary> diaries = insightService.getDiaryByUserId(userId);
         if (diaries.isEmpty()) {
